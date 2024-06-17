@@ -1,11 +1,12 @@
+import Button from '../member/Button.jsx';
 import './Header.css';
 
-export default function Header() {
-
-
+export default function Header({openLoginModal, openEnrollModal}) {
 
     return (
-        <header>
+        <>
+
+            <header>
                 <h1 className="logo">ReserchLab</h1>
                 <div className='menuList'>
                     <ul>
@@ -15,9 +16,13 @@ export default function Header() {
                     </ul>
                 </div>
                 <div id='memberServiceArea'>
-                    <button>로그인</button>
-                    <button>회원가입</button>
+                    <Button onSelect={openLoginModal}>로그인</Button>
+                    <Button onSelect={openEnrollModal}>회원가입</Button>
                 </div>
-        </header>
+            </header>
+
+           
+
+        </>
     );
 }
