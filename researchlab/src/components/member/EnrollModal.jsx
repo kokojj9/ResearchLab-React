@@ -1,20 +1,24 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { createPortal } from "react-dom";
+import './EnrollModal.css';
 
-const EnrollModal = forwardRef(function EnrollModal({}, ref) {
+const EnrollModal = forwardRef(function EnrollModal({closeModal}, ref) {
     const EnrollDialog = useRef();
    
     useImperativeHandle(ref, () =>{
         return {
             open() {
                 EnrollDialog.current.showModal();
+            },
+            close(){
+                EnrollDialog.current.close();
             }
         }
     });
 
 
     return createPortal(
-        <dialog ref={EnrollDialog} id="enrollModal-wrap">
+        <dialog ref={EnrollDialog} id="enrollModal-wrap" className="dialog">
             <div className="modal">
                 <div className="modalContent">
                     <h2>회원가입</h2>
@@ -25,7 +29,7 @@ const EnrollModal = forwardRef(function EnrollModal({}, ref) {
                     
                 </div>
                     <button>회원 가입</button>
-                    <button>닫기</button>
+                    <button onClick={closeModal}>닫기</button>
             </div>
         </dialog>,
         document.getElementById('modal-root')

@@ -11,24 +11,19 @@ function App() {
   const loginDialog = useRef();
   const EnrollDialog = useRef();
 
-  // const [isLoginModal, setIsLoginModal] = useState(false);
-  // const [isEnrollModal, setIsEnrollModal] = useState(false);
-
   const openLoginModal = () => {
-    // setIsLoginModal(true);
     loginDialog.current.open();
-    console.log('로그인모달');
+    // console.log('로그인모달');
   }
 
   const openEnrollModal = () => {
-    // setIsEnrollModal(true);
     EnrollDialog.current.open();
-    console.log('회원가입모달');
+    // console.log('회원가입모달');
   }
 
   const closeModal = () => {
-    // setIsLoginModal(false);
-    // setIsEnrollModal(false);
+    loginDialog.current.close();
+    EnrollDialog.current.close();
   }
 
   

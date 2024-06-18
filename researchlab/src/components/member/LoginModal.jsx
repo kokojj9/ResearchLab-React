@@ -1,29 +1,66 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import axios from "axios";
 
+import './LoginModal.css';
 
-const LoginModal = forwardRef(function LoginModal({}, ref) {
+const LoginModal = forwardRef(function LoginModal({ closeModal }, ref) {
     const loginDialog = useRef();
-   
-    useImperativeHandle(ref, () =>{
+
+    const [memberId, setMemberId] = useState('');
+    const [memberPwd, setMemberPwd] = useState('');
+
+    useImperativeHandle(ref, () => {
         return {
             open() {
                 loginDialog.current.showModal();
+            },
+            close() {
+                loginDialog.current.close();
             }
         }
     });
 
+    const handleLogin = () => {
+        axios({
+            method : 'post',
+            url : '/members/login',
+            data : {
+                memberId: memberId,
+                memberPwd: memberPwd
+            }
+        }).then(res => {
+            console.log(res);
+        })
+            closeModal();
+    }
+        
+
 
     return createPortal(
-        <dialog ref={loginDialog} id="loginModal-wrap">
+        <dialog ref={loginDialog} id="loginModal-wrap" className="dialog">
             <div className="modal">
                 <div className="modalContent">
                     <h2>로그인</h2>
-                    <p>아이디 : <input /></p>
-                    <p>비밀번호 : <input /></p>
+                    <p>
+                        아이디 :
+                        <input
+                            type="text"
+                            value={memberId}
+                            onChange={e => setMemberId(e.target.value)}
+                        />
+                    </p>
+                    <p>
+                        비밀번호 :
+                        <input
+                            type="password"
+                            value={memberPwd}
+                            onChange={e => setMemberPwd(e.target.value)}
+                        />
+                    </p>
                 </div>
-                    <button>로그인</button>
-                    <button>닫기</button>
+                <button onClick={handleLogin}>로그인</button>
+                <button onClick={closeModal}>닫기</button>
             </div>
         </dialog>,
         document.getElementById('modal-root')
