@@ -1,7 +1,7 @@
 import Button from '../member/Button.jsx';
 import './Header.css';
 
-export default function Header({openLoginModal, openEnrollModal}) {
+export default function Header({openLoginModal, openEnrollModal, loginMember}) {
 
     return (
         <>
@@ -16,8 +16,14 @@ export default function Header({openLoginModal, openEnrollModal}) {
                     </ul>
                 </div>
                 <div id='memberServiceArea'>
-                    <Button onSelect={openLoginModal}>로그인</Button>
-                    <Button onSelect={openEnrollModal}>회원가입</Button>
+                    {loginMember !== null ? (
+                        <p>{loginMember.memberId}님 반갑습니다.</p>
+                    ) : (
+                        <>
+                            <Button onSelect={openLoginModal}>로그인</Button>
+                            <Button onSelect={openEnrollModal}>회원가입</Button>
+                        </>
+                    )}
                 </div>
             </header>
 

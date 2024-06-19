@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import logo from './logo.svg';
+import axios from "axios";
 import './App.css';
 import Header from './components/common/Header.jsx'
 import LoginModal from './components/member/LoginModal.jsx';
@@ -8,8 +8,12 @@ import EnrollModal from './components/member/EnrollModal.jsx';
 
 
 function App() {
+  const [member, setMember] = useState(null);
+
   const loginDialog = useRef();
   const EnrollDialog = useRef();
+
+  
 
   const openLoginModal = () => {
     loginDialog.current.open();
@@ -33,8 +37,9 @@ function App() {
       <Header 
         openLoginModal={openLoginModal} 
         openEnrollModal={openEnrollModal}
+        loginMember={member}
       />
-      <LoginModal ref={loginDialog} closeModal={closeModal}></LoginModal>
+      <LoginModal ref={loginDialog} closeModal={closeModal} onLoginSuccess={setMember} ></LoginModal>
       <EnrollModal ref={EnrollDialog} closeModal={closeModal}></EnrollModal>
     </div>
 
