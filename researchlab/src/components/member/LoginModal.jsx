@@ -4,7 +4,7 @@ import axios from "axios";
 
 import './LoginModal.css';
 
-const LoginModal = forwardRef(function LoginModal({ closeModal }, ref) {
+const LoginModal = forwardRef(function LoginModal({ closeModal, onLoginSuccess }, ref) {
     const loginDialog = useRef();
 
     const [memberId, setMemberId] = useState('');
@@ -29,19 +29,26 @@ const LoginModal = forwardRef(function LoginModal({ closeModal }, ref) {
                 memberId: memberId,
                 memberPwd: memberPwd
             }
-        }).then(res => {
-            console.log(res);
+        }).then(response => {
+            if(response.data.responseCode === "YY"){
+                onLoginSuccess(response.data.data);
+                console.log('정상');
+            }
+            else {
+                console.log(response.data.responseMessage);
+            }
+        }).catch(() => {
+            console.log('통신오류');
         })
             closeModal();
     }
-        
-
 
     return createPortal(
         <dialog ref={loginDialog} id="loginModal-wrap" className="dialog">
             <div className="modal">
                 <div className="modalContent">
                     <h2>로그인</h2>
+                    
                     <p>
                         아이디 :
                         <input
