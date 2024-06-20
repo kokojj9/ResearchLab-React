@@ -53,3 +53,20 @@
 #enrollModal-wrap .modalContent{
   width: 480px;
 }
+
+#enrollModal-wrap .valid {
+  border: 1px solid green;
+}
+
+#enrollModal-wrap .valid-message {
+  color: green;
+}
+
+#enrollModal-wrap .invalid-message {
+  color: red;
+}
+
+#enrollModal-wrap .enrollBtn:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}

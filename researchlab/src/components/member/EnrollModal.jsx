@@ -14,7 +14,7 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
     const [isMemberPwdValid, setIsMemberPwdValid] = useState(false);
     const [isEmailValid, setIsEmailValid] = useState(false);
 
-    const [memberInfoValid, setMemberInfoValid] = useState(false);
+    const [isInfoValid, setIsInfoValid] = useState(false);
     // 유효성 검사
 
     const validateMemberId = id => {
@@ -33,32 +33,32 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
     };
 
     const handleMemberIdChange = e => {
-        setMemberId(e.target.value);
-        const isValid = validateMemberId(memberId);
+        const value = e.target.value; 
+        setMemberId(value);
+        const isValid = validateMemberId(value);
         setIsMemberIdValid(isValid);
         updateValidity();
     }
 
     const handleMemberPwdChange = e => {
-        setMemberPwd(e.target.value);
-        const isValid = validateMemberPwd(memberPwd);
+        const value = e.target.value;
+        setMemberPwd(value);
+        const isValid = validateMemberPwd(value);
         setIsMemberPwdValid(isValid);
         updateValidity();
     }
 
     const handleEmailChange = e => {
-        setEmail(e.target.value);
-        const isValid = validateEmail(email);
+        const value = e.target.value;
+        setEmail(value);
+        const isValid = validateEmail(value);
         setIsEmailValid(isValid);
         updateValidity();
     }
 
     const updateValidity = () => {
-        setMemberInfoValid(isMemberIdValid && isMemberPwdValid && isEmailValid);
+        setIsInfoValid(isMemberIdValid && isMemberPwdValid && isEmailValid);
     }
-
-
-
     //
 
     useImperativeHandle(ref, () => {
@@ -105,7 +105,14 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
                             type="text"
                             value={memberId}
                             onChange={handleMemberIdChange}
+                            className={isMemberIdValid ? 'valid' : 'invalid'}
+                            placeholder="영문, 숫자 5~12자"
                         />
+                        {isMemberIdValid ? (
+                            <span className="valid-message">유효한 아이디입니다.</span>
+                        ) : (
+                            <span className="invalid-message">아이디는 5자 이상 12자 이하의 영문, 숫자만 가능합니다.</span>
+                        )}
                     </p>
                     <p>
                         비밀번호 :
@@ -113,7 +120,14 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
                             type="password"
                             value={memberPwd}
                             onChange={handleMemberPwdChange}
+                            className={isMemberPwdValid ? 'valid' : 'invalid'}
+                            placeholder="영문, 숫자, 특수문자를 포함한 8~16자"
                         />
+                        {isMemberPwdValid ? (
+                            <span className="valid-message">유효한 비밀번호입니다.</span>
+                        ) : (
+                            <span className="invalid-message">비밀번호를 영문, 숫자, 특수문자를 포함하여 8~16자여야 합니다.</span>
+                        )}
                     </p>
                     <p>
                         이메일 :
@@ -121,10 +135,16 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
                             type="text"
                             value={email}
                             onChange={handleEmailChange}
+                            className={isEmailValid ? 'valid' : 'invalid'}
                         />
+                        {isEmailValid ? (
+                            <span className="valid-message">유효한 이메일 형식입니다.</span>
+                        ) : (
+                            <span className="invalid-message">유효한 이메일 형식이 아닙니다.</span>
+                        )}
                     </p>
                 </div>
-                <button onClick={handleEnrollMember}>회원 가입</button>
+                <button className="enrollBtn" onClick={handleEnrollMember} disabled={!isInfoValid}>회원 가입</button>
                 <button onClick={closeModal}>닫기</button>
             </div>
         </dialog>,

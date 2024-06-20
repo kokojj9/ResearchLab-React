@@ -26,7 +26,6 @@ function App() {
     })
   }
 
-
   const loginDialog = useRef();
   const EnrollDialog = useRef();
 
