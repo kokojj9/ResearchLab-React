@@ -30,15 +30,16 @@ const LoginModal = forwardRef(function LoginModal({ closeModal, onLoginSuccess }
                 memberPwd: memberPwd
             }
         }).then(response => {
+            console.log(response);
             if(response.data.responseCode === "YY"){
                 onLoginSuccess(response.data.data);
-                console.log('정상');
+               
             }
             else {
-                console.log(response.data.responseMessage);
+                console.log(response.data.resultMessage);
             }
-        }).catch(() => {
-            console.log('통신오류');
+        }).catch((e) => {
+            console.log(e);
         })
             closeModal();
     }
