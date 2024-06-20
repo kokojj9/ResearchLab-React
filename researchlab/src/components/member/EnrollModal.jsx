@@ -32,9 +32,9 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
                     email: email
                 }
             }).then(response => {
-
-            }).catch(() => {
-
+                console.log(response);
+            }).catch((response) => {
+                console.log(response);
             })
         }
         else {
