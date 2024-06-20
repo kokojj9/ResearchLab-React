@@ -13,8 +13,6 @@ function App() {
   const loginDialog = useRef();
   const EnrollDialog = useRef();
 
-  
-
   const openLoginModal = () => {
     loginDialog.current.open();
     // console.log('로그인모달');

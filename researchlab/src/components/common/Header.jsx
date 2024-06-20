@@ -17,7 +17,10 @@ export default function Header({openLoginModal, openEnrollModal, loginMember}) {
                 </div>
                 <div id='memberServiceArea'>
                     {loginMember !== null ? (
-                        <p>{loginMember.memberId}님 반갑습니다.</p>
+                        <>
+                            <p>{loginMember.memberId}님 반갑습니다.</p>
+                            <Button >로그아웃</Button>
+                        </>
                     ) : (
                         <>
                             <Button onSelect={openLoginModal}>로그인</Button>
