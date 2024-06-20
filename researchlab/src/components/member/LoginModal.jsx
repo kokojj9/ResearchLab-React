@@ -4,7 +4,7 @@ import axios from "axios";
 
 import './LoginModal.css';
 
-const LoginModal = forwardRef(function LoginModal({ closeModal, onLoginSuccess }, ref) {
+const LoginModal = forwardRef(function LoginModal({ closeModal, getSession }, ref) {
     const loginDialog = useRef();
 
     const [memberId, setMemberId] = useState('');
@@ -28,17 +28,20 @@ const LoginModal = forwardRef(function LoginModal({ closeModal, onLoginSuccess }
             data : {
                 memberId: memberId,
                 memberPwd: memberPwd
-            }
+            },
+            withCredentials: true
         }).then(response => {
+            console.log(response);
             if(response.data.responseCode === "YY"){
-                onLoginSuccess(response.data.data);
-                console.log('정상');
+                getSession();
+                closeModal();
             }
             else {
-                console.log(response.data.responseMessage);
+                alert('로그인에 실패하였습니다.');
+                console.log(response.data.resultMessage);
             }
-        }).catch(() => {
-            console.log('통신오류');
+        }).catch(e => {
+            console.log(e);
         })
             closeModal();
     }
