@@ -5,7 +5,6 @@ export default function Header({openLoginModal, openEnrollModal, loginMember, on
 
     return (
         <>
-
             <header>
                 <h1 className="logo">ReserchLab</h1>
                 <div className='menuList'>
@@ -29,9 +28,6 @@ export default function Header({openLoginModal, openEnrollModal, loginMember, on
                     )}
                 </div>
             </header>
-
-           
-
         </>
     );
 }

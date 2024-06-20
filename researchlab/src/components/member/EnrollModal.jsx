@@ -9,6 +9,57 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
     const [memberId, setMemberId] = useState('');
     const [memberPwd, setMemberPwd] = useState('');
     const [email, setEmail] = useState('');
+    
+    const [isMemberIdValid, setIsMemberIdValid] = useState(false);
+    const [isMemberPwdValid, setIsMemberPwdValid] = useState(false);
+    const [isEmailValid, setIsEmailValid] = useState(false);
+
+    const [memberInfoValid, setMemberInfoValid] = useState(false);
+    // 유효성 검사
+
+    const validateMemberId = id => {
+        const regex = /^[a-zA-Z0-9]{5,12}$/;
+        return regex.test(id);
+    };
+
+    const validateMemberPwd = password => {
+        const regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,16}$/;
+        return regex.test(password);
+    };
+
+    const validateEmail = email => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
+
+    const handleMemberIdChange = e => {
+        setMemberId(e.target.value);
+        const isValid = validateMemberId(memberId);
+        setIsMemberIdValid(isValid);
+        updateValidity();
+    }
+
+    const handleMemberPwdChange = e => {
+        setMemberPwd(e.target.value);
+        const isValid = validateMemberPwd(memberPwd);
+        setIsMemberPwdValid(isValid);
+        updateValidity();
+    }
+
+    const handleEmailChange = e => {
+        setEmail(e.target.value);
+        const isValid = validateEmail(email);
+        setIsEmailValid(isValid);
+        updateValidity();
+    }
+
+    const updateValidity = () => {
+        setMemberInfoValid(isMemberIdValid && isMemberPwdValid && isEmailValid);
+    }
+
+
+
+    //
 
     useImperativeHandle(ref, () => {
         return {
@@ -53,7 +104,7 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
                         <input
                             type="text"
                             value={memberId}
-                            onChange={e => setMemberId(e.target.value)}
+                            onChange={handleMemberIdChange}
                         />
                     </p>
                     <p>
@@ -61,7 +112,7 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
                         <input
                             type="password"
                             value={memberPwd}
-                            onChange={e => setMemberPwd(e.target.value)}
+                            onChange={handleMemberPwdChange}
                         />
                     </p>
                     <p>
@@ -69,7 +120,7 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
                         <input
                             type="text"
                             value={email}
-                            onChange={e => setEmail(e.target.value)}
+                            onChange={handleEmailChange}
                         />
                     </p>
                 </div>

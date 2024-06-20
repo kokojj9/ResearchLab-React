@@ -10,6 +10,21 @@ const LoginModal = forwardRef(function LoginModal({ closeModal, getSession }, re
     const [memberId, setMemberId] = useState('');
     const [memberPwd, setMemberPwd] = useState('');
 
+    const validateMemberId = (id) => {
+        const regex = /^[a-zA-Z0-9]{5,12}$/;
+        return regex.test(id);
+    };
+
+    const validatePassword = (password) => {
+        const regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,16}$/;
+        return regex.test(password);
+    };
+
+    const validateEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
+
     useImperativeHandle(ref, () => {
         return {
             open() {
@@ -23,27 +38,24 @@ const LoginModal = forwardRef(function LoginModal({ closeModal, getSession }, re
 
     const handleLogin = () => {
         axios({
-            method : 'post',
-            url : '/members/login',
-            data : {
+            method: 'post',
+            url: '/members/login',
+            data: {
                 memberId: memberId,
                 memberPwd: memberPwd
             },
             withCredentials: true
         }).then(response => {
-            console.log(response);
-            if(response.data.responseCode === "YY"){
+            if (response.data.resultMessage === "login success") {
                 getSession();
                 closeModal();
             }
             else {
-                alert('로그인에 실패하였습니다.');
-                console.log(response.data.resultMessage);
+                alert('회원 정보를 정확히 입력해주세요');
             }
-        }).catch(e => {
-            console.log(e);
+        }).catch(response => {
+            console.log(response.data.resultMessage);
         })
-            closeModal();
     }
 
     return createPortal(
@@ -51,7 +63,7 @@ const LoginModal = forwardRef(function LoginModal({ closeModal, getSession }, re
             <div className="modal">
                 <div className="modalContent">
                     <h2>로그인</h2>
-                    
+
                     <p>
                         아이디 :
                         <input

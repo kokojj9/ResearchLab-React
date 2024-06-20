@@ -20,9 +20,9 @@ function App() {
       url: '/members/getSession',
       withCredentials: true
     }).then(response => {
-      setMember(response.data.data);
-    }).catch(response => {
-      console.log(response);
+      if(response.data != null){
+       setMember(response.data.data);
+      }
     })
   }
 
@@ -32,12 +32,10 @@ function App() {
 
   const openLoginModal = () => {
     loginDialog.current.open();
-    // console.log('로그인모달');
   }
 
   const openEnrollModal = () => {
     EnrollDialog.current.open();
-    // console.log('회원가입모달');
   }
 
   const closeModal = () => {
@@ -51,7 +49,7 @@ function App() {
       url : '/members/logout',
       withCredentials: true
     }).then(response => {
-
+      setMember(null);
     }).catch(response => {
 
     })
