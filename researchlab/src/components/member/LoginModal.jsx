@@ -9,6 +9,7 @@ const LoginModal = forwardRef(function LoginModal({ closeModal, getSession }, re
 
     const [memberId, setMemberId] = useState('');
     const [memberPwd, setMemberPwd] = useState('');
+    
 
     useImperativeHandle(ref, () => {
         return {
@@ -31,19 +32,16 @@ const LoginModal = forwardRef(function LoginModal({ closeModal, getSession }, re
             },
             withCredentials: true
         }).then(response => {
-            console.log(response);
-            if(response.data.responseCode === "YY"){
+            if(response.data.resultMessage === "login success"){
                 getSession();
                 closeModal();
             }
-            else {
-                alert('로그인에 실패하였습니다.');
-                console.log(response.data.resultMessage);
+            else{
+                alert('회원 정보를 정확히 입력해주세요');
             }
-        }).catch(e => {
-            console.log(e);
+        }).catch(response => {
+            console.log(response.data.resultMessage);
         })
-            closeModal();
     }
 
     return createPortal(
