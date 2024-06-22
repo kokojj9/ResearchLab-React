@@ -1,7 +1,15 @@
 import { useEffect } from "react"
 
 export default function StockList() {
+    let flag = false; // 개발모드에서 두번실행되어 위젯이 중복으로 실행되는거 막는 플래그임
+
     useEffect(() => {
+        if(flag){
+            return;
+        }
+
+        flag = true;
+
         const script = document.createElement('script');
         script.type = "text/javascript";
         script.async = true;
@@ -42,8 +50,8 @@ export default function StockList() {
     return (
         <div>
             <h2>종목 조회</h2>
-            <div id="tradingview-widget-container" class="tradingview-widget-container">
-                <div class="tradingview-widget-container__widget"></div>
+            <div id="tradingview-widget-container" className="tradingview-widget-container">
+                <div className="tradingview-widget-container__widget"></div>
             </div>
             <div className="separator"></div>
             <p>주식/ 코인 종목조회영역</p>
