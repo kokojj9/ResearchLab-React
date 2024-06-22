@@ -47,6 +47,11 @@ header {
     border-radius: 4px;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
+
+  .menuList ul > li > .menuLink {
+    color: #e1eeeb;
+    text-decoration: none;
+  }
   
   .menuList ul > li:hover {
     background-color: #ffaa00;
