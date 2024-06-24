@@ -1,7 +1,10 @@
 import { useEffect } from "react"
+import { createChart } from 'lightweight-charts';
+import './StockList.css';
+
+let flag = false; // 개발모드에서 두번실행되어 위젯이 중복으로 실행되는거 막는 플래그임
 
 export default function StockList() {
-    let flag = false; // 개발모드에서 두번실행되어 위젯이 중복으로 실행되는거 막는 플래그임
 
     useEffect(() => {
         if(flag){
@@ -46,6 +49,7 @@ export default function StockList() {
         document.getElementById('tradingview-widget-container').appendChild(script);
     }, []);
 
+   
 
     return (
         <div>
@@ -55,6 +59,14 @@ export default function StockList() {
             </div>
             <div className="separator"></div>
             <p>주식/ 코인 종목조회영역</p>
+            <div className="secter-container">
+                <div className="member-menu-config">
+                    <p>사용자 설정 종목</p>
+                </div>
+                <div className="stock-list">
+                    <p>종목 선택하면 차트 보여줄 영역</p>
+                </div>
+            </div>
         </div>
     );
 }
