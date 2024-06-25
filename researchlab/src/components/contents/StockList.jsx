@@ -5,7 +5,7 @@ import FindInvestment from "./imvestment/FindInvestment";
 
 export default function StockList() {
     const [list, setlist] = useState({
-        configuration:{
+        configurations:{
             no:'',
             title:'',
             items:{

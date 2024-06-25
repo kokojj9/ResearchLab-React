@@ -1,0 +1,42 @@
+.find-investment {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.find-investment label {
+    color: #ffcc00;
+    margin-right: 10px;
+}
+
+.input-field {
+    background-color: #1a1a1a; 
+    color: #ffcc00;
+    border: 1px solid #ffcc00;
+    border-radius: 5px;
+    padding: 5px;
+    margin-left: 5px;
+}
+
+.action-button {
+    width: 100px;
+    background-color: #1a1a1a;
+    color: #ffcc00; 
+    border: 1px solid #ffcc00; 
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.action-button:hover {
+    background-color: #ffcc00; 
+    color: #1a1a1a; 
+}
+
+.results {
+    padding: 20px;
+}
