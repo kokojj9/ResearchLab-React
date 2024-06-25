@@ -1,72 +1,37 @@
-import React, { useEffect, useRef, memo } from "react"
-import { createChart } from 'lightweight-charts';
-import ChartDetail from "./stocklist/ChartDetail";
+import React, { useEffect, useRef, memo, useState } from "react"
+import SideMenu from "./imvestment/SideMenu";
+import FindInvestment from "./imvestment/FindInvestment";
 
-import './StockList.css';
-
-let flag = false; // 개발모드에서 두번실행되어 위젯이 중복으로 실행되는거 막는 플래그임
 
 export default function StockList() {
+    const [list, setlist] = useState({
+        configuration:{
+            no:'',
+            title:'',
+            items:{
+                code:''
+            }
+        },
+    });
 
-    useEffect(() => {
-        if(flag){
-            return;
-        }
+    const [showConfig, setShowConfig] = useState(false);
 
-        flag = true;
-
-        const script = document.createElement('script');
-        script.type = "text/javascript";
-        script.async = true;
-        script.src = "https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
-        script.innerHTML = JSON.stringify({
-            "symbols": [
-                {
-                    proName: "FOREXCOM:SPXUSD",
-                    title: "S&P 500 Index"
-                },
-                {
-                    proName: "FOREXCOM:NSXUSD",
-                    title: "US 100 Cash CFD"
-                },
-                {
-                    proName: "FX_IDC:EURUSD",
-                    title: "EUR to USD"
-                },
-                {
-                    proName: "BITSTAMP:BTCUSD",
-                    title: "Bitcoin"
-                },
-                {
-                    proName: "BITSTAMP:ETHUSD",
-                    title: "Ethereum"
-                }
-            ],
-            showSymbolLogo: true,
-            isTransparent: false,
-            displayMode: "compact",
-            colorTheme: "dark",
-            locale: "kr"
-        });
-        document.getElementById('tradingview-widget-container').appendChild(script);
-    }, []);
-
+    const handleControlConfig = () => {
+        setShowConfig(true);
+    }
 
     return (
-        <div>
+        <>
             <h2>종목 조회</h2>
-            <div id="tradingview-widget-container" className="tradingview-widget-container">
-                <div className="tradingview-widget-container__widget"></div>
-            </div>
-            <div className="separator"></div>
             <div className="secter-container">
                 <div className="member-menu-config">
-                    <p>사용자 설정 종목</p>
+                    <SideMenu onSelect={handleControlConfig}/>
                 </div>
                 <div className="stock-list">
-                    <ChartDetail />
+                    {showConfig && <FindInvestment />}
                 </div>
             </div>
-        </div>
+            
+        </>
     );
 }
