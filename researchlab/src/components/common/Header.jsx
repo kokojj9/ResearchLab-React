@@ -45,7 +45,8 @@ export default function Header({ loginMember, getSession, setMember }) {
                 <div className='menuList'>
                     <ul>
                         <li><Link className='menuLink' to="/mainNews">주요 뉴스</Link></li>
-                        <li><Link className='menuLink' to="/stockList">종목 조회</Link></li>
+                        <li><Link className='menuLink' to="/stockList">주식 종목</Link></li>
+                        <li><Link className='menuLink' to="/cryptoList">암호 화폐</Link></li>
                         <li><Link className='menuLink' to="/cal">복리 계산기</Link></li>
                     </ul>
                 </div>

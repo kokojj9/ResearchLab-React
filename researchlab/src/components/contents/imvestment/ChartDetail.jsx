@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, memo } from 'react';
 
-let flag = false;
+
 
 function ChartDetail() {
   const container = useRef();
+
+  let flag = false;
 
   useEffect(
     () => {
