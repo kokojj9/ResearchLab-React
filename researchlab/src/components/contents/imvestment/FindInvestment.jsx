@@ -16,9 +16,7 @@ export default function FindInvestment() {
             }
         }).then(response => {
             const items = response.data.response.body.items.item;
-            console.log(items);
             addSearchResult(items);
-            console.log(searchResults);
         }).catch(() => {
             console.log('에러');
         })
