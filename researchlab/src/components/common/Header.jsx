@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 import axios from 'axios';
@@ -7,8 +7,10 @@ import './Header.css';
 import Button from '../member/Button.jsx';
 import LoginModal from '../member/LoginModal.jsx';
 import EnrollModal from '../member/EnrollModal.jsx';
+import { MemberContext } from './MemberContext.jsx';
 
-export default function Header({ loginMember, getSession, setMember }) {
+export default function Header() {
+    const { member, getSession, setMember } = useContext(MemberContext);
 
     const loginDialog = useRef();
     const EnrollDialog = useRef();
@@ -51,9 +53,9 @@ export default function Header({ loginMember, getSession, setMember }) {
                     </ul>
                 </div>
                 <div id='memberServiceArea'>
-                    {loginMember !== null ? (
+                    {member !== null ? (
                         <>
-                            <p>{loginMember.memberId}님 반갑습니다.</p>
+                            <p>{member.memberId}님 반갑습니다.</p>
                             <Button onSelect={handleLogout}>로그아웃</Button>
                         </>
                     ) : (

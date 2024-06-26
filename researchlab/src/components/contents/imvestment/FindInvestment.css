@@ -1,14 +1,19 @@
 .find-investment {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 20px;
     padding: 20px;
     margin-bottom: 20px;
 }
 
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .find-investment label {
     color: #ffcc00;
-    margin-right: 10px;
 }
 
 .input-field {
@@ -27,7 +32,6 @@
     border: 1px solid #ffcc00; 
     border-radius: 5px;
     padding: 5px 10px;
-    margin-left: 10px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -37,6 +41,42 @@
     color: #1a1a1a; 
 }
 
-.results {
+.content-area {
+    display: flex;
+    gap: 20px;
     padding: 20px;
+}
+
+.results, .added-items {
+    flex: 1;
+    padding: 20px;
+    background-color: #1a1a1a;
+    border: 1px solid #ffcc00;
+    border-radius: 5px;
+}
+
+.result-item, .added-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #333333;
+    border-radius: 5px;
+    color: #ffcc00;
+}
+
+.result-item button {
+    background-color: #ffcc00;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.result-item button:hover {
+    background-color: #1a1a1a;
+    color: #ffcc00;
+    border: 1px solid #ffcc00;
 }

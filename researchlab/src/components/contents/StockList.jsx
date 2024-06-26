@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, memo, useState } from "react"
+import React, { useEffect, useRef, memo, useState, useContext } from "react"
 import SideMenu from "./imvestment/SideMenu";
 import FindInvestment from "./imvestment/FindInvestment";
 
@@ -13,6 +13,7 @@ export default function StockList() {
             }
         },
     });
+
 
     const [showConfig, setShowConfig] = useState(false);
 
