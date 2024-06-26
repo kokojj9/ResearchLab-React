@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import './App.css';
@@ -10,6 +10,8 @@ import CryptoList from './components/contents/CryptoList.jsx';
 
 function App() {
   const [member, setMember] = useState(null);
+
+  const { loginMember } = useContext(member);
 
   useEffect(() => {
     getSession();
