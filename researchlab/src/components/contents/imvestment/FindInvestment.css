@@ -1,14 +1,19 @@
 .find-investment {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 20px;
     padding: 20px;
     margin-bottom: 20px;
 }
 
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .find-investment label {
     color: #ffcc00;
-    margin-right: 10px;
 }
 
 .input-field {
@@ -27,7 +32,6 @@
     border: 1px solid #ffcc00; 
     border-radius: 5px;
     padding: 5px 10px;
-    margin-left: 10px;
     cursor: pointer;
     transition: background-color 0.3s;
 }

@@ -7,43 +7,23 @@ import Header from './components/common/Header.jsx'
 import MainNews from './components/contents/MainNews.jsx';
 import StockList from './components/contents/StockList.jsx';
 import CryptoList from './components/contents/CryptoList.jsx';
+import { MemberProvider } from './components/common/MemberContext.jsx';
 
 function App() {
-  const [member, setMember] = useState(null);
-
-  const { loginMember } = useContext(member);
-
-  useEffect(() => {
-    getSession();
-  }, [])
-
-  const getSession = () => {
-    axios({
-      method: 'get',
-      url: '/members/getSession',
-      withCredentials: true
-    }).then(response => {
-      if (response.data != null) {
-        setMember(response.data.data);
-      }
-    })
-  }
 
   return (
     <Router>
       <div className="App">
-        <Header
-          loginMember={member}
-          getSession={getSession}
-          setMember={setMember}
-        />
-        <div className="content">
-          <Routes>
-            <Route path="/mainNews" element={<MainNews />} />
-            <Route path="/stockList" element={<StockList />} />
-            <Route path="/cryptoList" element={<CryptoList />} />
-          </Routes>
-        </div>
+        <MemberProvider>
+          <Header />
+          <div className="content">
+            <Routes>
+              <Route path="/mainNews" element={<MainNews />} />
+              <Route path="/stockList" element={<StockList />} />
+              <Route path="/cryptoList" element={<CryptoList />} />
+            </Routes>
+          </div>
+        </MemberProvider>
       </div>
     </Router>
   );

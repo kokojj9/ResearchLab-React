@@ -14,7 +14,6 @@ export default function StockList() {
         },
     });
 
-    const {loginMember} = useContext(member); 
 
     const [showConfig, setShowConfig] = useState(false);
 
