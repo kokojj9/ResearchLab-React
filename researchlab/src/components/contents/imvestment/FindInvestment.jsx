@@ -17,6 +17,7 @@ export default function FindInvestment() {
         }).then(response => {
             const items = response.data.response.body.items.item;
             addSearchResult(items);
+            console.log(items);
         }).catch(() => {
             console.log('에러');
         })
@@ -39,7 +40,7 @@ export default function FindInvestment() {
                         설정 목록 이름:
                         <input type="text" className="input-field" placeholder='예) 원전주 모음'/>
                     </label>
-                    <button className="action-button">추가</button>
+                    <button className="action-button">리스트로 저장</button>
                 </div>
                 <div className="input-group">
                     <label>
