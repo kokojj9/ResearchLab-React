@@ -59,7 +59,6 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
     const updateValidity = () => {
         setIsInfoValid(isMemberIdValid && isMemberPwdValid && isEmailValid);
     }
-    //
 
     useImperativeHandle(ref, () => {
         return {
@@ -83,7 +82,8 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
                     email: email
                 }
             }).then(response => {
-                console.log(response);
+                alert('회원가입이 완료되었습니다.');
+                EnrollDialog.current.close();
             }).catch((response) => {
                 console.log(response);
             })

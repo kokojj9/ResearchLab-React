@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, memo, useState, useContext } from "react"
 import SideMenu from "./imvestment/SideMenu";
 import FindInvestment from "./imvestment/FindInvestment";
-
+import './StockList.css'
 
 export default function StockList() {
     const [list, setlist] = useState({
