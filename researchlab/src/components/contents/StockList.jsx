@@ -4,16 +4,7 @@ import FindInvestment from "./imvestment/FindInvestment";
 import './StockList.css'
 
 export default function StockList() {
-    const [list, setlist] = useState({
-        configurations:{
-            no:'',
-            title:'',
-            items:{
-                code:''
-            }
-        },
-    });
-
+    const [list, setlist] = useState([]);
 
     const [showConfig, setShowConfig] = useState(false);
 

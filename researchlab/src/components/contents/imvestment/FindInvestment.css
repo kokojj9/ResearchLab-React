@@ -17,7 +17,7 @@
 }
 
 .input-field {
-    background-color: #1a1a1a; 
+    background-color: #1a1f1d;
     color: #ffcc00;
     border: 1px solid #ffcc00;
     border-radius: 5px;
@@ -26,8 +26,8 @@
 }
 
 .action-button {
-    width: 100px;
-    background-color: #1a1a1a;
+    width: auto;
+    background-color: #1a1f1d;
     color: #ffcc00; 
     border: 1px solid #ffcc00; 
     border-radius: 5px;
@@ -38,7 +38,7 @@
 
 .action-button:hover {
     background-color: #ffcc00; 
-    color: #1a1a1a; 
+    color: #1a1f1d; 
 }
 
 .content-area {
@@ -55,15 +55,33 @@
     border-radius: 5px;
 }
 
-.result-item, .added-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 10px;
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+thead th {
     background-color: #333333;
-    border-radius: 5px;
     color: #ffcc00;
+    padding: 10px;
+    text-align: center;
+}
+
+tbody td {
+    background-color: #2a2a2a;
+    color: #ffcc00;
+    padding: 10px;
+    text-align: center; 
+    border: 1px solid #333333;
+}
+
+tbody tr {
+    border-bottom: 1px solid #ffcc00;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
 }
 
 .result-item button {

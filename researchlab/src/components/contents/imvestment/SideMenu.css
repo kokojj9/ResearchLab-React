@@ -12,7 +12,7 @@
 }
 
 .side-menu-buttons button {
-    background-color: #1a1a1a;
+    background-color: #1a1f1d;
     color: #ffcc00;
     border: 1px solid #ffcc00;
     border-radius: 5px;
@@ -24,7 +24,7 @@
 
 .side-menu-buttons button:hover {
     background-color: #ffcc00; 
-    color: #1a1a1a;
+    color: #1a1f1d;
 }
 
 .side-menu-list {
