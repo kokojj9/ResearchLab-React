@@ -1,4 +1,3 @@
-import { useState } from "react";
 import './SideMenu.css';
 
 export default function SideMenu({ onSelect }){

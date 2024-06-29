@@ -26,7 +26,9 @@ export default function FindInvestment() {
     // 공공데이터 조회 결과중 가장 최근 날짜 종목만 필터링하는 메소드
     const filterLast = items => {
         const stockGroup = items.reduce((acc, item) => {
+            // acc : 그룹화 객체, item : 배열의 현재요소
             if(!acc[items.srtnCd]) {
+                // 존재하지않으면 빈배열
                 acc[item.srtnCd] = [];
             }
             
@@ -35,9 +37,10 @@ export default function FindInvestment() {
             // 객체로 반환해줌
             return acc;
         }, {});
-        //객체의 값을 배열로 변환
+        // Object.values : 객체의 값을 배열로 변환
         const latestStock = Object.values(stockGroup).map(group => {
             return group.reduce((latest, item) => {
+                // latest 와 item의 날짜값을 비교하여 가장 최신 요소를 반환
                 return new Date(item.basDt) > new Date(latest.basDt) ? item : latest;
             });
         });
@@ -46,7 +49,11 @@ export default function FindInvestment() {
     }
 
     const addItem = item => {
-        setAddedItems([...addedItems, item]);
+        const isAdded = addedItems.some(addedItem => item.srtnCd === addedItem.srtnCd)
+
+        if(!isAdded) {
+            setAddedItems([...addedItems, item]);
+        }
     }
 
 
