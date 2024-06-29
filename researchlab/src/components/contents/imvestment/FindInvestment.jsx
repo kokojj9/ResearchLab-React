@@ -16,15 +16,33 @@ export default function FindInvestment() {
             }
         }).then(response => {
             const items = response.data.response.body.items.item;
-            addSearchResult(items);
-            console.log(items);
+            const latestStock = filterLast(items);
+            setSearchResults(latestStock);
+            console.log(latestStock);
         }).catch(() => {
             console.log('에러');
         })
     }
+    // 공공데이터 조회 결과중 가장 최근 날짜 종목만 필터링하는 메소드
+    const filterLast = items => {
+        const stockGroup = items.reduce((acc, item) => {
+            if(!acc[items.srtnCd]) {
+                acc[item.srtnCd] = [];
+            }
+            
+            acc[item.srtnCd].push(item);
+            console.log('acc : ' + acc);
+            // 객체로 반환해줌
+            return acc;
+        }, {});
+        //객체의 값을 배열로 변환
+        const latestStock = Object.values(stockGroup).map(group => {
+            return group.reduce((latest, item) => {
+                return new Date(item.basDt) > new Date(latest.basDt) ? item : latest;
+            });
+        });
 
-    const addSearchResult = items => {
-        setSearchResults(items);
+        return latestStock;
     }
 
     const addItem = item => {
@@ -58,23 +76,47 @@ export default function FindInvestment() {
             <div className="content-area">
                 <div className="results">
                     <h2>검색 결과</h2>
-                    {searchResults.map((result, i) => (
-                        <div key={i} className='result-item'>
-                            <span>{result.srtnCd}</span>
-                            <span>{result.itmsNm}</span>
-                            <span>{result.mkp}원</span>
-                            <button onClick={() => addItem(result)}>추가</button>
-                        </div>
-                    ))}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>종목 코드</th>
+                                <th>종목 이름</th>
+                                <th>가격</th>
+                                <th>날짜</th>
+                                <th>추가</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {searchResults.map((result, i) => (
+                                <tr key={i} className='result-item'>
+                                    <td>{result.srtnCd}</td>
+                                    <td>{result.itmsNm}</td>
+                                    <td>{result.mkp}원</td>
+                                    <td>{result.basDt}</td>
+                                    <td><button onClick={() => addItem(result)}>추가</button></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
                 <div className="added-items">
                     <h2>추가된 항목</h2>
-                    {addedItems.map((item, i) => (
-                        <div key={i} className='added-item'>
-                            <span>{item.srtnCd}</span>
-                            <span>{item.itmsNm}</span>
-                        </div>
-                    ))}                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>종목 코드</th>
+                                <th>종목 이름</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {addedItems.map((item, i) => (
+                                <tr key={i} className='added-item'>
+                                    <td>{item.srtnCd}</td>
+                                    <td>{item.itmsNm}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </>
