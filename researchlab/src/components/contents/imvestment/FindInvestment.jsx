@@ -2,26 +2,28 @@ import React, { useState } from 'react';
 import './FindInvestment.css';
 import axios from 'axios';
 
-export default function FindInvestment() {
+export default function FindInvestment({ onSave }) {
     const [stockName, setStockName] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [addedItems, setAddedItems] = useState([]);
 
-    const findStock = () => {
-        axios({
-            method: 'get',
-            url: '/investment/findStock',
-            params: {
-                stockName: stockName 
-            }
-        }).then(response => {
-            const items = response.data.response.body.items.item;
-            const latestStock = filterLast(items);
+    const findStock = async () => {
+        try {
+            const response = await axios.get('/investment/findStock', {
+                params: {
+                    stockName: stockName 
+                }
+            });
+
+            const item = response.data.response.body.items.item;
+            const latestStock = filterLast(item);
             setSearchResults(latestStock);
-            console.log(latestStock);
-        }).catch(() => {
-            console.log('에러');
-        })
+            console.log(latestStock);  
+
+        } catch (error) {
+            console.log('주식종목 조회 에러');
+        }
+        
     }
     // 공공데이터 조회 결과중 가장 최근 날짜 종목만 필터링하는 메소드
     const filterLast = items => {
@@ -56,6 +58,12 @@ export default function FindInvestment() {
         }
     }
 
+    const handleSetList = () => {
+        const listName = document.getElementById('settingName').value;
+        if(listName){
+            onSave(listName, addedItems);
+        }
+    }
 
     return (
         <>
@@ -63,9 +71,9 @@ export default function FindInvestment() {
                 <div className="input-group">
                     <label>
                         설정 목록 이름:
-                        <input type="text" className="input-field" placeholder='예) 원전주 모음'/>
+                        <input type="text" id='settingName' className="input-field" placeholder='예) 원전주 모음'/>
                     </label>
-                    <button className="action-button">리스트로 저장</button>
+                    <button className="action-button" onClick={handleSetList}>리스트로 저장</button>
                 </div>
                 <div className="input-group">
                     <label>
