@@ -1,6 +1,6 @@
 import './SideMenu.css';
 
-export default function SideMenu({ onSelect }){
+export default function SideMenu({ onSelect, list }){
 
     return(
         <div className="side-menu">
@@ -12,9 +12,11 @@ export default function SideMenu({ onSelect }){
                 </div>
             </div>
             <ul className="side-menu-list">
-                <li>설정 1</li>
-                <li>설정 2</li>
-                <li>설정 3</li>
+                {list.map((stock, i) => (
+                    <li key={i} className='result-item'>
+                        <p>{stock.name}</p>
+                    </li>
+                ))}
             </ul>
         </div>
     );

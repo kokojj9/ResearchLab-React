@@ -17,6 +17,7 @@ body{
 
 .content {
   width: 95%;
+  height: auto;
   margin: 20px auto;
   padding: 20px;
   background-color: rgba(48, 59, 55, 0.8);
