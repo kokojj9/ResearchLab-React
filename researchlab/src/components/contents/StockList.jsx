@@ -2,20 +2,12 @@ import React, { useEffect, useRef, memo, useState, useContext } from "react"
 import SideMenu from "./imvestment/SideMenu";
 import FindInvestment from "./imvestment/FindInvestment";
 import './StockList.css'
+import MyList from "./imvestment/MyList";
 
 export default function StockList() {
-    const [list, setList] = useState([
-        {
-            id: Math.round(Math.random() * 1000),
-            name: '원전주 모음',
-            stocks: [ 
-                {
-                    srtnCd: '005930', 
-                    itmsNm: '삼성전자',
-                },
-            ]
-        },
-    ]);
+    const [showConfig, setShowConfig] = useState(false);
+    const [showMyList, setShowMyList] = useState(false);
+    const [list, setList] = useState([]);
 
     const handleSetList = (name, stocks) => {
         const newList = {
@@ -27,10 +19,14 @@ export default function StockList() {
         setShowConfig(false);
     };
 
-    const [showConfig, setShowConfig] = useState(false);
-
     const handleControlConfig = () => {
         setShowConfig(true);
+        setShowMyList(false);
+    }
+
+    const handleMyList = () => {
+        setShowConfig(false);
+        setShowMyList(true);
     }
 
     return (
@@ -38,10 +34,11 @@ export default function StockList() {
             <h2>종목 조회</h2>
             <div className="secter-container">
                 <div className="member-menu-config">
-                    <SideMenu onSelect={handleControlConfig} list={list}/>
+                    <SideMenu onSelect={handleControlConfig} onShow={handleMyList} list={list}/>
                 </div>
                 <div className="stock-list">
                     {showConfig && <FindInvestment onSave={handleSetList} />}
+                    {showMyList && <MyList />}
                 </div>
             </div>
         </>

@@ -1,6 +1,6 @@
 import './SideMenu.css';
 
-export default function SideMenu({ onSelect, list }){
+export default function SideMenu({ onSelect, onShow, list }){
 
     return(
         <div className="side-menu">
@@ -14,7 +14,7 @@ export default function SideMenu({ onSelect, list }){
             <ul className="side-menu-list">
                 {list.map((stock, i) => (
                     <li key={i} className='result-item'>
-                        <p>{stock.name}</p>
+                        <p onClick={onShow}>{stock.name}</p>
                     </li>
                 ))}
             </ul>
