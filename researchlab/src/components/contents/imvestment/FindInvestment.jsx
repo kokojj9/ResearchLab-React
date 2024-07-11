@@ -23,7 +23,7 @@ export default function FindInvestment({ onSave }) {
       console.log("주식종목 조회 에러");
     }
   };
-  
+
   // 공공데이터 조회 결과중 가장 최근 날짜 종목만 필터링하는 메소드
   const filterLast = (items) => {
     const stockGroup = items.reduce((acc, item) => {
@@ -59,10 +59,26 @@ export default function FindInvestment({ onSave }) {
     }
   };
 
-  const handleSetList = () => {
+  const handleSetList = async () => {
     const listName = document.getElementById("settingName").value;
     if (listName) {
-      onSave(listName, addedItems);
+      try {
+        const response = await axios.post("/investment/saveList", {
+          listName,
+          items: addedItems,
+        });
+
+        if (response.status === 200) {
+          alert("리스트가 정상적으로 저장되었습니다.");
+          onSave(listName, addedItems);
+        } else {
+          alert("리스트 저장에 실패했습니다. 다시 시도해주세요.");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      alert("설정 목록 이름을 입력해주세요.");
     }
   };
 

@@ -35,7 +35,7 @@ const LoginModal = forwardRef(function LoginModal(
       withCredentials: true,
     })
       .then((response) => {
-        if (response.data.resultMessage === "login success") {
+        if (response.data.resultMessage === "로그인 성공") {
           getSession();
           closeModal();
         } else {
