@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-const useValidation = (validateFn) => {
-  const [value, setValue] = useState();
-  const [isValid, setIsValid] = useState();
-  const [isInput, setIsInput] = useState();
+const useValidation = (validateFn, initialValue = "") => {
+  const [value, setValue] = useState(initialValue);
+  const [isValid, setIsValid] = useState(false);
+  const [isInput, setIsInput] = useState(false);
 
   const handleChange = (e) => {
     const value = e.target.value;

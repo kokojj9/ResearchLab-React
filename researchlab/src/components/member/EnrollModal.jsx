@@ -53,6 +53,7 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
     }
   };
 
+  // input태그 중복 코드 리팩토링 필요!
   return createPortal(
     <dialog ref={EnrollDialog} id="enrollModal-wrap" className="dialog">
       <div className="modal">

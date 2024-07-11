@@ -1,8 +1,10 @@
 const ErrorMessage = ({ message, isValid }) => {
-  if (isValid) {
-    return <span className="valid-message">{message}</span>;
-  }
-  return <span className="invalid-message">{message}</span>;
+  if (!message) return null;
+  return (
+    <span className={isValid ? 'valid-message' : 'invalid-message'}>
+      {message}
+    </span>
+  );
 };
 
 export default ErrorMessage;
