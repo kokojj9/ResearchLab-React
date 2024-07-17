@@ -24,27 +24,26 @@ const LoginModal = forwardRef(function LoginModal(
     };
   });
 
-  const handleLogin = () => {
-    axios({
-      method: "post",
-      url: "/members/login",
-      data: {
-        memberId: memberId,
-        memberPwd: memberPwd,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        if (response.data.resultMessage === "로그인 성공") {
-          getSession();
-          closeModal();
-        } else {
-          alert("회원 정보를 정확히 입력해주세요");
-        }
-      })
-      .catch((response) => {
-        console.log(response.data.resultMessage);
-      });
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        "/members/login",
+        {
+          memberId: memberId,
+          memberPwd: memberPwd,
+        },
+        { withCredentials: true }
+      );
+
+      if (response.data.resultMessage === "로그인 성공") {
+        getSession();
+        closeModal();
+      } else {
+        alert("회원 정보를 정확히 입력해주세요");
+      }
+    } catch (error) {
+      console.error(error.response.data.resultMessage);
+    }
   };
 
   return createPortal(
