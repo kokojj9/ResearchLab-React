@@ -2,7 +2,7 @@ import { forwardRef, useImperativeHandle, useRef } from "react";
 import { createPortal } from "react-dom";
 import "./EnrollModal.css";
 import axios from "axios";
-import useValidation from "../hooks/useValidation";
+import useValidation from "../../hooks/useValidation";
 import ErrorMessage from "./ErrorMessage";
 
 const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
