@@ -2,11 +2,11 @@ import { forwardRef, useImperativeHandle, useRef } from "react";
 import { createPortal } from "react-dom";
 import "./EnrollModal.css";
 import axios from "axios";
-import useValidation from "../hooks/useValidation";
+import useValidation from "../../hooks/useValidation";
 import ErrorMessage from "./ErrorMessage";
 
 const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
-  const EnrollDialog = useRef();
+  const enrollDialog = useRef();
 
   // 유효성 검사
   const validateMemberId = (id) => /^[a-zA-Z0-9]{5,12}$/.test(id);
@@ -26,10 +26,10 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
   useImperativeHandle(ref, () => {
     return {
       open() {
-        EnrollDialog.current.showModal();
+        enrollDialog.current.showModal();
       },
       close() {
-        EnrollDialog.current.close();
+        enrollDialog.current.close();
       },
     };
   });
@@ -46,16 +46,17 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
         memberPwd: memberPwd.value,
         email: email.value,
       });
+
       alert("회원가입이 완료되었습니다.");
-      EnrollDialog.current.close();
+      enrollDialog.current.close();
     } catch (error) {
-      console.log(error);
+      console.log("회원가입 실패", error);
     }
   };
 
   // input태그 중복 코드 리팩토링 필요!
   return createPortal(
-    <dialog ref={EnrollDialog} id="enrollModal-wrap" className="dialog">
+    <dialog ref={enrollDialog} id="enrollModal-wrap" className="dialog">
       <div className="modal">
         <div className="modalContent">
           <h2>회원가입</h2>

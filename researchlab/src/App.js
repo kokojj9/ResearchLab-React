@@ -1,33 +1,37 @@
-import { useContext, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import './App.css';
-import axios from "axios";
-import Header from './components/common/Header.jsx'
-import MainNews from './components/contents/MainNews.jsx';
-import StockList from './components/contents/StockList.jsx';
-import CryptoList from './components/contents/CryptoList.jsx';
-import { MemberProvider } from './components/common/MemberContext.jsx';
-import MainContent from './components/contents/MainContent.jsx';
+import "./App.css";
+import MainNews from "./pages/news/MainNews.js";
+import StockList from "./components/contents/StockList.js";
+import CryptoList from "./pages/investment/CryptoList.js";
+import { MemberProvider } from "./context/MemberContext.js";
+import MainContent from "./pages/common/MainContent.js";
+import ErrorPage from "./pages/common/error/ErrorPage.js";
+import RootLayout from "./pages/common/Root.js";
+import TradeDiaryBoard from "./pages/tradeboard/TradeDiaryBoard.js";
+import InterestCalculatorPage from "./pages/calculator/InterestCalculator.js";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <MainContent /> },
+      { path: "mainNews", element: <MainNews /> },
+      { path: "stockList", element: <StockList /> },
+      { path: "cryptoList", element: <CryptoList /> },
+      { path: "calculator", element: <InterestCalculatorPage /> },
+      { path: "tradeBoard", element: <TradeDiaryBoard /> },
+    ],
+  },
+]);
 
 function App() {
-
   return (
-    <Router>
-      <div className="App">
-        <MemberProvider>
-          <Header />
-          <div className="content">
-            <Routes>
-              <Route path='/' element={<MainContent />} />
-              <Route path="/mainNews" element={<MainNews />} />
-              <Route path="/stockList" element={<StockList />} />
-              <Route path="/cryptoList" element={<CryptoList />} />
-            </Routes>
-          </div>
-        </MemberProvider>
-      </div>
-    </Router>
+    <MemberProvider>
+      <RouterProvider router={router} />
+    </MemberProvider>
   );
 }
 
