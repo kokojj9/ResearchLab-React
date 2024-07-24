@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, memo } from "react";
 import { createChart } from "lightweight-charts";
-import ChartDetail from "./imvestment/ChartDetail";
+import ChartDetail from "../../components/contents/imvestment/ChartDetail";
 
 import "./CryptoList.css";
 

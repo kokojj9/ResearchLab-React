@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 import "./Header.css";
+
+import { MemberContext } from "../../../context/MemberContext.js";
 import Button from "../../member/Button.js";
 import LoginModal from "../../member/LoginModal.js";
 import EnrollModal from "../../member/EnrollModal.js";
-import { MemberContext } from "../../../context/MemberContext.js";
 
 export default function Header() {
   const { member, getSession, setMember } = useContext(MemberContext);
@@ -53,8 +54,13 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link className="menuLink" to="/cal">
+              <Link className="menuLink" to="/calculator">
                 복리 계산기
+              </Link>
+            </li>
+            <li>
+              <Link className="menuLink" to="/tradeBoard">
+                매매복기 게시판
               </Link>
             </li>
           </ul>

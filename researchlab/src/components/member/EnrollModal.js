@@ -46,10 +46,11 @@ const EnrollModal = forwardRef(function EnrollModal({ closeModal }, ref) {
         memberPwd: memberPwd.value,
         email: email.value,
       });
+
       alert("회원가입이 완료되었습니다.");
       enrollDialog.current.close();
     } catch (error) {
-      console.log(error);
+      console.log("회원가입 실패", error);
     }
   };
 
