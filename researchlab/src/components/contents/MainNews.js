@@ -1,4 +1,4 @@
-export default function MainNews() {
+const MainNews = () => {
   return (
     <div>
       <h2>주요 뉴스</h2>
@@ -7,3 +7,5 @@ export default function MainNews() {
     </div>
   );
 }
+
+export default MainNews;

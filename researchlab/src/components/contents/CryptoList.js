@@ -4,7 +4,7 @@ import ChartDetail from "./imvestment/ChartDetail";
 
 import "./CryptoList.css";
 
-export default function CryptoList() {
+const CryptoList = () => {
   // let flag = false; // 개발모드에서 두번실행되어 위젯이 중복으로 실행되는거 막는 플래그임
 
   // useEffect(() => {
@@ -71,3 +71,6 @@ export default function CryptoList() {
     </>
   );
 }
+
+
+export default CryptoList;

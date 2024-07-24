@@ -4,7 +4,7 @@ import FindInvestment from "./imvestment/FindInvestment";
 import "./StockList.css";
 import MyList from "./imvestment/MyList";
 
-export default function StockList() {
+const StockList = () => {
   const [showConfig, setShowConfig] = useState(false);
   const [showMyList, setShowMyList] = useState(false);
   const [list, setList] = useState([]);
@@ -48,3 +48,5 @@ export default function StockList() {
     </>
   );
 }
+
+export default StockList;

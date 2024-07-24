@@ -4,47 +4,38 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 import "./Header.css";
-import Button from "../member/Button.jsx";
-import LoginModal from "../member/LoginModal.jsx";
-import EnrollModal from "../member/EnrollModal.jsx";
-import { MemberContext } from "./MemberContext.jsx";
+import Button from "../../member/Button.js";
+import LoginModal from "../../member/LoginModal.js";
+import EnrollModal from "../../member/EnrollModal.js";
+import { MemberContext } from "../../../context/MemberContext.js";
 
 export default function Header() {
   const { member, getSession, setMember } = useContext(MemberContext);
 
   const loginDialog = useRef();
-  const EnrollDialog = useRef();
+  const enrollDialog = useRef();
 
-  const openLoginModal = () => {
-    loginDialog.current.open();
-  };
-
-  const openEnrollModal = () => {
-    EnrollDialog.current.open();
-  };
-
+  const openLoginModal = () => loginDialog.current.open();
+  const openEnrollModal = () => enrollDialog.current.open();
   const closeModal = () => {
     loginDialog.current.close();
-    EnrollDialog.current.close();
+    enrollDialog.current.close();
   };
 
-  const handleLogout = () => {
-    axios({
-      method: "post",
-      url: "/members/logout",
-      withCredentials: true,
-    })
-      .then((response) => {
-        setMember(null);
-      })
-      .catch((response) => {});
+  const handleLogout = async () => {
+    try {
+      await axios.post("/members/logout", {}, { withCredentials: true });
+      setMember(null);
+    } catch (error) {
+      console.error("로그아웃 실패", error);
+    }
   };
 
   return (
     <>
       <header>
-        <h1 className="logo">ReserchLab</h1>
-        <div className="menuList">
+        <h1 className="logo">ResearchLab</h1>
+        <nav className="menuList">
           <ul>
             <li>
               <Link className="menuLink" to="/mainNews">
@@ -67,9 +58,9 @@ export default function Header() {
               </Link>
             </li>
           </ul>
-        </div>
+        </nav>
         <div id="memberServiceArea">
-          {member !== null ? (
+          {member ? (
             <>
               <p>{member.memberId}님 반갑습니다.</p>
               <Button onSelect={handleLogout}>로그아웃</Button>
@@ -86,8 +77,8 @@ export default function Header() {
         ref={loginDialog}
         closeModal={closeModal}
         getSession={getSession}
-      ></LoginModal>
-      <EnrollModal ref={EnrollDialog} closeModal={closeModal}></EnrollModal>
+      />
+      <EnrollModal ref={enrollDialog} closeModal={closeModal} />
     </>
   );
 }
