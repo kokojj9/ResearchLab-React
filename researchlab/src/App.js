@@ -1,15 +1,18 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import "./App.css";
+import { MemberProvider } from "./context/MemberContext.js";
+
 import MainNews from "./pages/news/MainNews.js";
 import StockList from "./components/contents/StockList.js";
 import CryptoList from "./pages/investment/CryptoList.js";
-import { MemberProvider } from "./context/MemberContext.js";
 import MainContent from "./pages/common/MainContent.js";
 import ErrorPage from "./pages/common/error/ErrorPage.js";
 import RootLayout from "./pages/common/Root.js";
 import TradeDiaryBoard from "./pages/tradeboard/TradeDiaryBoard.js";
 import InterestCalculatorPage from "./pages/calculator/InterestCalculator.js";
+
+import "./App.css";
+import TradePostDetail from "./components/tradeBoard/TeadePostDetail.js";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +26,7 @@ const router = createBrowserRouter([
       { path: "cryptoList", element: <CryptoList /> },
       { path: "calculator", element: <InterestCalculatorPage /> },
       { path: "tradeBoard", element: <TradeDiaryBoard /> },
+      { path: "tradeBoard/:boardNo", element: <TradePostDetail /> },
     ],
   },
 ]);
