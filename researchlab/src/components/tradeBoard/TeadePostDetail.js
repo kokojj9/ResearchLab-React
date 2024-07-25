@@ -16,14 +16,15 @@ const TradePostDetail = () => {
   return (
     <div style={{textAlign:'center', padding: "20px", color: "#e1eeeb" }}>
       <h1>{post.title}</h1>
+      <p>작성자: {post.memberId}</p>
+      <p>좋아요: {post.likes}</p>
       <img
         src={post.img}
         alt={post.title}
         style={{ width: "400px", height: "auto", borderRadius: "8px" }}
       />
       <p>{post.content}</p>
-      <p>작성자: {post.memberId}</p>
-      <p>좋아요: {post.likes}</p>
+      
     </div>
   );
 };
