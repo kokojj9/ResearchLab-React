@@ -10,6 +10,7 @@ import ErrorPage from "./pages/common/error/ErrorPage.js";
 import RootLayout from "./pages/common/Root.js";
 import TradeDiaryBoard from "./pages/tradeboard/TradeDiaryBoard.js";
 import InterestCalculatorPage from "./pages/calculator/InterestCalculator.js";
+import NewTradePost from "./pages/tradeboard/NewTradePost.js";
 
 import "./App.css";
 import TradePostDetail from "./components/tradeBoard/TeadePostDetail.js";
@@ -25,8 +26,15 @@ const router = createBrowserRouter([
       { path: "stockList", element: <StockList /> },
       { path: "cryptoList", element: <CryptoList /> },
       { path: "calculator", element: <InterestCalculatorPage /> },
-      { path: "tradeBoard", element: <TradeDiaryBoard /> },
-      { path: "tradeBoard/:boardNo", element: <TradePostDetail /> },
+      {
+        path: "tradeBoard",
+        element: <TradeDiaryBoard />,
+        children: [
+          { path: "new", element: <NewTradePost /> },
+          { path: ":boardNo", element: <TradePostDetail /> },
+        ],
+      },
+      ,
     ],
   },
 ]);
