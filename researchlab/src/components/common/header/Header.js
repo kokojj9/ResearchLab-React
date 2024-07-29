@@ -60,7 +60,7 @@ export default function Header() {
             </li>
             <li>
               <Link className="menuLink" to="/tradeBoard">
-                매매복기 게시판
+                매매전략연구소
               </Link>
             </li>
           </ul>

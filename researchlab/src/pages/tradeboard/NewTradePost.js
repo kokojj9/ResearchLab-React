@@ -1,5 +1,7 @@
+import TradePostForm from "../../components/tradeBoard/TradePostForm";
+
 const NewTradePost = () => {
-  return <h1>글쓰기 영역</h1>
-}
+  return <TradePostForm />;
+};
 
 export default NewTradePost;
