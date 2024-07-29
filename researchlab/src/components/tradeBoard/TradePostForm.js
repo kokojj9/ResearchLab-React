@@ -3,6 +3,8 @@ import axios from "axios";
 import { MemberContext } from "../../context/MemberContext";
 import { redirect } from "react-router-dom";
 
+import './TradePostForm.css';
+
 const TradePostForm = () => {
   const { member } = useContext(MemberContext);
   const [title, setTitle] = useState("");
@@ -13,8 +15,8 @@ const TradePostForm = () => {
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleContentChange = (e) => setContent(e.target.value);
 
-  const handleImageChage = (e) => {
-    const files = Array.form(e.target.files);
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
     setImages(files);
 
     const previewFiles = files.map((file) => URL.createObjectURL(file));
@@ -27,9 +29,9 @@ const TradePostForm = () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
-    formData.append("writer", member);
+    formData.append("writer", member.memberId);
     images.forEach((image, i) => {
-      formData.append("image", image);
+      formData.append("images", image);
     });
 
     try {
@@ -50,31 +52,37 @@ const TradePostForm = () => {
   return (
     <>
       {member ? (
-        <div>
-          <h1>매매전략 연구소</h1>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>제목: </label>
+        <div className="new-trade-post">
+          <h2 className="form-title">새 글 작성</h2>
+          <form className="post-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="title">제목: </label>
               <input
                 type="text"
                 value={title}
+                id="title"
                 onChange={handleTitleChange}
+                className="form-control"
                 required
               />
             </div>
-            <div>
+            <div className="form-group">
               <label>내용</label>
               <textarea
                 value={content}
+                id="content"
                 onChange={handleContentChange}
+                className="form-control"
                 required
               />
             </div>
-            <div>
-              <label>사진</label>
+            <div className="form-group">
+              <label htmlFor="images">사진</label>
               <input
                 type="file"
-                onChange={handleImageChage}
+                id="images"
+                className="form-control"
+                onChange={handleImageChange}
                 multiple
                 accept="image/*"
               />
@@ -86,15 +94,17 @@ const TradePostForm = () => {
                   key={i}
                   src={src}
                   style={{
-                    width: "100px",
-                    height: "100px",
+                    width: "300px",
+                    height: "300px",
                     objectFit: "cover",
                     margin: "5px",
                   }}
                 />
               ))}
             </div>
-            <button type="submit">글 작성</button>
+            <button type="submit" className="submit-btn">
+              작성하기
+            </button>
           </form>
         </div>
       ) : (

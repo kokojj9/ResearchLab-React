@@ -1,9 +1,12 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import TradePostList from "../../components/tradeBoard/TradePostList";
 import "./TradeDiaryBoard.css";
 
 const TradeDiaryBoard = () => {
+  const location = useLocation();
+  const isPost = location.pathname.includes("/tradeBoard/");
+  
   return (
     <div className="trade-diary-board">
       <header className="board-header">
@@ -18,7 +21,7 @@ const TradeDiaryBoard = () => {
         </div>
       </header>
       <main>
-        <TradePostList />
+        {!isPost && <TradePostList />}
         <Outlet />
       </main>
     </div>
