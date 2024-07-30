@@ -35,7 +35,7 @@ const TradePostForm = () => {
     });
 
     try {
-      const response = await axios.post("/posts", formData, {
+      const response = await axios.post("/tradeBoard/posts", formData, {
         headers: {
           "content-Type": "multipart/form-data",
         },
