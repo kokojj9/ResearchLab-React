@@ -3,7 +3,7 @@ import axios from "axios";
 import { MemberContext } from "../../context/MemberContext";
 import { redirect } from "react-router-dom";
 
-import './TradePostForm.css';
+import "./TradePostForm.css";
 
 const TradePostForm = () => {
   const { member } = useContext(MemberContext);
@@ -27,10 +27,20 @@ const TradePostForm = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", content);
-    formData.append("writer", member.memberId);
-    images.forEach((image, i) => {
+
+    const tradePost = {
+      title,
+      content,
+      writer: member.memberId,
+      imageList: images.map((image) => ({ originalName: image.name })),
+    };
+
+    formData.append(
+      "tradePost",
+      new Blob([JSON.stringify(tradePost)], { type: "application/json" })
+    );
+    
+    images.forEach((image) => {
       formData.append("images", image);
     });
 
