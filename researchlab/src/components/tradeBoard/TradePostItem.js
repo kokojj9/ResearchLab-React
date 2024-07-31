@@ -4,14 +4,16 @@ import "./TradePostItem.css";
 const TradePostItem = ({ post }) => {
   return (
     <div className="trade-post-item">
-      <Link to={`/tradeBoard/${post.boardNo}`} className="trade-post-link">
-        <img src={post.img} alt={post.title} />
+      <Link to={`/tradeBoard/${post.postNo}`} className="trade-post-link">
+        {post.imageList.map((image) => (
+          <img src={image.storedName} alt={post.title} />
+        ))}
         <div className="trade-post-content">
           <h2>{post.title}</h2>
           <p>{post.content}</p>
           <div className="trade-post-footer">
-            <span>by {post.memberId}</span>
-            <span>♥ {post.likes}</span>
+            <span>by {post.writer}</span>
+            {/* <span>👀 {post.views}</span> */}
           </div>
         </div>
       </Link>
