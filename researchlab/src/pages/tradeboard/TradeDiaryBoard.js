@@ -7,7 +7,7 @@ import axios from "axios";
 const TradeDiaryBoard = () => {
   const location = useLocation();
   const isPost = location.pathname.includes("/tradeBoard/");
-  const [posts, setPosts] = useState();
+  const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -18,7 +18,9 @@ const TradeDiaryBoard = () => {
       const response = await axios.get("/tradeBoard", {
         params: { page, size: 15 },
       });
-      setPosts((prevPosts) => [...prevPosts, ...response.data]);
+      console.log(response.data);
+      setPosts((prevPosts) => [...prevPosts, ...response.data.content]);
+      setHasMore(!response.data.last);
     } catch (error) {
       console.error("조회 실패", error);
     } finally {
@@ -47,7 +49,7 @@ const TradeDiaryBoard = () => {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          isPost && <TradePostList posts={posts} />
+          <TradePostList posts={posts} />
         )}
         <Outlet />
       </main>
