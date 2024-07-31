@@ -49,7 +49,7 @@ const TradeDiaryBoard = () => {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <TradePostList posts={posts} />
+          !isPost && <TradePostList posts={posts} />
         )}
         <Outlet />
       </main>
