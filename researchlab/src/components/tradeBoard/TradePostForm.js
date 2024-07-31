@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import { MemberContext } from "../../context/MemberContext";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./TradePostForm.css";
 
@@ -11,6 +11,7 @@ const TradePostForm = () => {
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
   const [previewImage, setPreviewImage] = useState([]);
+  const navigate = useNavigate();
 
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleContentChange = (e) => setContent(e.target.value);
@@ -51,8 +52,8 @@ const TradePostForm = () => {
         },
       });
 
-      if (response.data.resultCode === "ok") {
-        return redirect("/tradeBoard");
+      if (response.status === 200) {
+        navigate("/tradeBoard");
       }
     } catch (error) {
       console.log("실패", error);

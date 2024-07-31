@@ -1,12 +1,35 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import TradePostList from "../../components/tradeBoard/TradePostList";
 import "./TradeDiaryBoard.css";
+import axios from "axios";
 
 const TradeDiaryBoard = () => {
   const location = useLocation();
   const isPost = location.pathname.includes("/tradeBoard/");
-  
+  const [posts, setPosts] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+
+  const fetchPosts = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get("/tradeBoard", {
+        params: { page, size: 15 },
+      });
+      setPosts((prevPosts) => [...prevPosts, ...response.data]);
+    } catch (error) {
+      console.error("조회 실패", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [page]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
+
   return (
     <div className="trade-diary-board">
       <header className="board-header">
@@ -21,7 +44,11 @@ const TradeDiaryBoard = () => {
         </div>
       </header>
       <main>
-        {!isPost && <TradePostList />}
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          isPost && <TradePostList posts={posts} />
+        )}
         <Outlet />
       </main>
     </div>

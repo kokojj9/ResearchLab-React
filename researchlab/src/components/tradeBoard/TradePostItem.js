@@ -11,7 +11,7 @@ const TradePostItem = ({ post }) => {
           <p>{post.content}</p>
           <div className="trade-post-footer">
             <span>by {post.memberId}</span>
-            <span>♥ {post.likes}</span>
+            <span>👀 {post.views}</span>
           </div>
         </div>
       </Link>
