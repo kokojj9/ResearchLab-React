@@ -5,12 +5,12 @@ import axios from "axios";
 
 import "./main-header.module.css";
 
-import { MemberContext } from "../../../context/MemberContext.js";
-import Button from "../../member/Button.js";
-import LoginModal from "../../member/LoginModal.js";
-import EnrollModal from "../../member/EnrollModal.js";
+import { MemberContext } from "../../context/MembetContext";
+import Button from "../../components/members/button";
+import LoginModal from "../../components/members/loginModal";
+import EnrollModal from "../../components/members/enrollDialog";
 
-export default function Header() {
+const Header = () => {
   const { member, getSession, setMember } = useContext(MemberContext);
 
   const loginDialog = useRef();
@@ -59,7 +59,7 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link className="menuLink" to="/tradeBoard">
+              <Link className="menuLink" to="/strategylab">
                 매매전략연구소
               </Link>
             </li>
@@ -87,4 +87,6 @@ export default function Header() {
       <EnrollModal ref={enrollDialog} closeModal={closeModal} />
     </>
   );
-}
+};
+
+export default Header;
