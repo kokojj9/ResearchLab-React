@@ -1,13 +1,14 @@
-import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
-import TradePostList from "../../components/tradeBoard/TradePostList";
-import "./TradeDiaryBoard.css";
+"use client";
 
-const strategylabBoard = () => {
-  const location = useLocation();
-  const isPost = location.pathname.includes("/tradeBoard/");
-  const [posts, setPosts] = useState([]);
+import { Post } from "@/components/strategyLab/postItem";
+import PostList from "@/components/strategyLab/postList";
+import axios from "axios";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import styles from "./page.module.css";
+
+const StrategylabBoard = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -18,7 +19,6 @@ const strategylabBoard = () => {
       const response = await axios.get("/tradeBoard", {
         params: { page, size: 15 },
       });
-      console.log(response.data);
       setPosts((prevPosts) => [...prevPosts, ...response.data.content]);
       setHasMore(!response.data.last);
     } catch (error) {
@@ -33,28 +33,21 @@ const strategylabBoard = () => {
   }, [fetchPosts]);
 
   return (
-    <div className="trade-diary-board">
-      <header className="board-header">
+    <div className={styles["trade-diary-board"]}>
+      <header className={styles["board-header"]}>
         <h1>매매전략연구소</h1>
-        <div className="board-actions">
-          <Link to="/tradeBoard/new" className="btn">
+        <div className={styles["board-actions"]}>
+          <Link href="/strategylab/new" className={styles.btn}>
             글쓰기
           </Link>
-          <Link to="/tradeBoard/myPosts" className="btn">
+          <Link href="/strategylab/myPosts" className={styles.btn}>
             내 글 목록 보기
           </Link>
         </div>
       </header>
-      <main>
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          !isPost && <TradePostList posts={posts} />
-        )}
-        <Outlet />
-      </main>
+      <main>{isLoading ? <p>Loading...</p> : <PostList posts={posts} />}</main>
     </div>
   );
 };
 
-export default strategylabBoard;
+export default StrategylabBoard;
