@@ -1,0 +1,32 @@
+.trade-diary-board {
+  padding: 20px;
+  margin: 0 auto;
+  color: #f0f0f0;
+}
+
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.board-header h1 {
+  color: #f0f0f0;
+}
+
+.board-actions .btn {
+  margin-left: 10px;
+  padding: 10px 20px;
+  background-color: #434343;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.board-actions .btn:hover {
+  background-color: #afafaf;
+}
