@@ -1,6 +1,9 @@
 import styles from "./errorMessage.module.css";
 
-const ErrorMessage = ({ message, isValid }) => {
+const ErrorMessage: React.FC<{ message: string; isValid: boolean }> = ({
+  message,
+  isValid,
+}) => {
   if (!message) return null;
   return (
     <span
