@@ -16,6 +16,7 @@ interface PostItemProps {
 
 type image = {
   title: string;
+  originName: string;
   storedName: string;
 };
 
