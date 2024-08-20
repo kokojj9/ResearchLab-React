@@ -1,19 +1,20 @@
-import { useEffect, useState, createContext, ReactNode } from "react";
+"use client";
 import axios from "axios";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
-type Member = {
+export type MemberType = {
   id: string;
   name: string;
   email: string;
 };
 
-type MemberContext = {
-  member: Member | null;
-  setMember: (member: Member | null) => void;
+export type MemberContextType = {
+  member: MemberType | null;
+  setMember: (member: MemberType | null) => void;
   getSession: () => void;
 };
 
-export const MemberContext = createContext<MemberContext | undefined>(
+export const MemberContext = createContext<MemberContextType | undefined>(
   undefined
 );
 // <타입 | undefind,null > 해당 타입이 타입이나 다른 것일 수 있다는 표현
@@ -21,7 +22,7 @@ export const MemberContext = createContext<MemberContext | undefined>(
 export const MemberProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [member, setMember] = useState<Member | null>(null);
+  const [member, setMember] = useState<MemberType | null>(null);
 
   useEffect(() => {
     getSession();

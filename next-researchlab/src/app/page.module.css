@@ -1,18 +1,8 @@
 .App {
   text-align: center;
 }
-.App *{
+.App * {
   box-sizing: border-box;
-
-}
-body{
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: radial-gradient(#303b37, #1a1f1d);
-  color: #e1eeeb;
-  min-height: 100vh;
 }
 
 .content {
@@ -32,4 +22,3 @@ body{
   background-color: #444;
   margin: 40px 0;
 }
-

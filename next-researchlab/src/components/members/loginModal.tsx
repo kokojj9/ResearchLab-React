@@ -1,28 +1,44 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+"use client";
 import axios from "axios";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+import { createPortal } from "react-dom";
 
-import "./loginModal.module.css";
+import styles from "./loginModal.module.css";
 
-const LoginModal = forwardRef(function LoginModal(
-  { closeModal, getSession },
-  ref
-) {
-  const loginDialog = useRef();
+export type LoginModalHandle = {
+  open: () => void;
+  close: () => void;
+};
+
+const LoginModal = forwardRef<
+  LoginModalHandle,
+  { closeModal: () => void; getSession: () => void }
+>(function LoginModal({ closeModal, getSession }, ref) {
+  const loginDialog = useRef<HTMLDialogElement | null>(null);
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true); // 컴포넌트가 마운트된 후에 mounted를 true로 설정
+  }, []);
 
   const [memberId, setMemberId] = useState("");
   const [memberPwd, setMemberPwd] = useState("");
 
-  useImperativeHandle(ref, () => {
-    return {
-      open() {
-        loginDialog.current.showModal();
-      },
-      close() {
-        loginDialog.current.close();
-      },
-    };
-  });
+  useImperativeHandle(ref, () => ({
+    open() {
+      loginDialog.current?.showModal();
+    },
+    close() {
+      loginDialog.current?.close();
+    },
+  }));
 
   const handleLogin = async () => {
     try {
@@ -42,14 +58,26 @@ const LoginModal = forwardRef(function LoginModal(
         alert("회원 정보를 정확히 입력해주세요");
       }
     } catch (error) {
-      console.error(error.response.data.resultMessage);
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data?.resultMessage || "로그인 실패");
+      } else {
+        console.error("알 수 없는 오류가 발생했습니다.");
+      }
     }
   };
 
+  if (!mounted) {
+    return null; // 아직 마운트되지 않았다면 아무것도 렌더링하지 않음
+  }
+
   return createPortal(
-    <dialog ref={loginDialog} id="loginModal-wrap" className="dialog">
-      <div className="modal">
-        <div className="modalContent">
+    <dialog
+      ref={loginDialog}
+      id={styles["loginModal-wrap"]}
+      className={styles.dialog}
+    >
+      <div className={styles.modal}>
+        <div className={styles.modalContent}>
           <h2>로그인</h2>
 
           <p>
@@ -73,7 +101,7 @@ const LoginModal = forwardRef(function LoginModal(
         <button onClick={closeModal}>닫기</button>
       </div>
     </dialog>,
-    document.getElementById("modal-root")
+    document.getElementById("modal-root") as HTMLElement
   );
 });
 

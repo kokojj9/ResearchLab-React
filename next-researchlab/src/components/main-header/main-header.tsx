@@ -1,26 +1,37 @@
+"use client";
+import Link from "next/link";
 import { useContext, useRef } from "react";
-import { Link } from "react-router-dom";
 
 import axios from "axios";
 
-import "./main-header.module.css";
+import styles from "./main-header.module.css";
 
-import { MemberContext } from "../../context/MembetContext";
+import { MemberContext } from "@/context/MemberContext";
 import Button from "../../components/members/button";
-import LoginModal from "../../components/members/loginModal";
-import EnrollModal from "../../components/members/enrollDialog";
+import EnrollModal, {
+  EnrollModalHandle,
+} from "../../components/members/enrollDialog";
+import LoginModal, {
+  LoginModalHandle,
+} from "../../components/members/loginModal";
 
 const Header = () => {
-  const { member, getSession, setMember } = useContext(MemberContext);
+  const memberContext = useContext(MemberContext);
 
-  const loginDialog = useRef();
-  const enrollDialog = useRef();
+  if (!memberContext) {
+    throw new Error("MemberContext를 찾을 수 없음");
+  }
 
-  const openLoginModal = () => loginDialog.current.open();
-  const openEnrollModal = () => enrollDialog.current.open();
+  const { member, getSession, setMember } = memberContext;
+
+  const loginDialog = useRef<LoginModalHandle | null>(null);
+  const enrollDialog = useRef<EnrollModalHandle | null>(null);
+
+  const openLoginModal = () => loginDialog.current?.open();
+  const openEnrollModal = () => enrollDialog.current?.open();
   const closeModal = () => {
-    loginDialog.current.close();
-    enrollDialog.current.close();
+    loginDialog.current?.close();
+    enrollDialog.current?.close();
   };
 
   const handleLogout = async () => {
@@ -34,41 +45,41 @@ const Header = () => {
 
   return (
     <>
-      <header>
-        <h1 className="logo">ResearchLab</h1>
-        <nav className="menuList">
+      <header className={styles.header}>
+        <h1 className={styles.logo}>ResearchLab</h1>
+        <nav className={styles.menuList}>
           <ul>
             <li>
-              <Link className="menuLink" to="/mainNews">
+              <Link className={styles.menuLink} href="/mainNews">
                 주요 뉴스
               </Link>
             </li>
             <li>
-              <Link className="menuLink" to="/stockList">
+              <Link className={styles.menuLink} href="/stockList">
                 주식 종목
               </Link>
             </li>
             <li>
-              <Link className="menuLink" to="/cryptoList">
+              <Link className={styles.menuLink} href="/cryptoList">
                 암호 화폐
               </Link>
             </li>
             <li>
-              <Link className="menuLink" to="/calculator">
+              <Link className={styles.menuLink} href="/calculator">
                 복리 계산기
               </Link>
             </li>
             <li>
-              <Link className="menuLink" to="/strategylab">
+              <Link className={styles.menuLink} href="/strategylab">
                 매매전략연구소
               </Link>
             </li>
           </ul>
         </nav>
-        <div id="memberServiceArea">
+        <div id={styles.memberServiceArea}>
           {member ? (
             <>
-              <p>{member.memberId}님 반갑습니다.</p>
+              <p>{member.id}님 반갑습니다.</p>
               <Button onSelect={handleLogout}>로그아웃</Button>
             </>
           ) : (
