@@ -1,7 +1,12 @@
-import { MemberContext } from "@/context/MembetContext";
-import axios from "axios";
+"use client";
+import Link from "next/link";
 import { useContext, useRef } from "react";
-import { Link } from "react-router-dom";
+
+import axios from "axios";
+
+import styles from "./main-header.module.css";
+
+import { MemberContext } from "@/context/MemberContext";
 import Button from "../../components/members/button";
 import EnrollModal, {
   EnrollModalHandle,
@@ -9,7 +14,6 @@ import EnrollModal, {
 import LoginModal, {
   LoginModalHandle,
 } from "../../components/members/loginModal";
-import "./main-header.module.css";
 
 const Header = () => {
   const memberContext = useContext(MemberContext);
@@ -41,38 +45,38 @@ const Header = () => {
 
   return (
     <>
-      <header>
-        <h1 className="logo">ResearchLab</h1>
-        <nav className="menuList">
+      <header className={styles.header}>
+        <h1 className={styles.logo}>ResearchLab</h1>
+        <nav className={styles.menuList}>
           <ul>
             <li>
-              <Link className="menuLink" to="/mainNews">
+              <Link className={styles.menuLink} href="/mainNews">
                 주요 뉴스
               </Link>
             </li>
             <li>
-              <Link className="menuLink" to="/stockList">
+              <Link className={styles.menuLink} href="/stockList">
                 주식 종목
               </Link>
             </li>
             <li>
-              <Link className="menuLink" to="/cryptoList">
+              <Link className={styles.menuLink} href="/cryptoList">
                 암호 화폐
               </Link>
             </li>
             <li>
-              <Link className="menuLink" to="/calculator">
+              <Link className={styles.menuLink} href="/calculator">
                 복리 계산기
               </Link>
             </li>
             <li>
-              <Link className="menuLink" to="/strategylab">
+              <Link className={styles.menuLink} href="/strategylab">
                 매매전략연구소
               </Link>
             </li>
           </ul>
         </nav>
-        <div id="memberServiceArea">
+        <div id={styles.memberServiceArea}>
           {member ? (
             <>
               <p>{member.id}님 반갑습니다.</p>

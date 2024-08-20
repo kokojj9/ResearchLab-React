@@ -1,8 +1,15 @@
+"use client";
 import axios from "axios";
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 
-import "./loginModal.module.css";
+import styles from "./loginModal.module.css";
 
 export type LoginModalHandle = {
   open: () => void;
@@ -14,6 +21,12 @@ const LoginModal = forwardRef<
   { closeModal: () => void; getSession: () => void }
 >(function LoginModal({ closeModal, getSession }, ref) {
   const loginDialog = useRef<HTMLDialogElement | null>(null);
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true); // 컴포넌트가 마운트된 후에 mounted를 true로 설정
+  }, []);
 
   const [memberId, setMemberId] = useState("");
   const [memberPwd, setMemberPwd] = useState("");
@@ -53,10 +66,18 @@ const LoginModal = forwardRef<
     }
   };
 
+  if (!mounted) {
+    return null; // 아직 마운트되지 않았다면 아무것도 렌더링하지 않음
+  }
+
   return createPortal(
-    <dialog ref={loginDialog} id="loginModal-wrap" className="dialog">
-      <div className="modal">
-        <div className="modalContent">
+    <dialog
+      ref={loginDialog}
+      id={styles["loginModal-wrap"]}
+      className={styles.dialog}
+    >
+      <div className={styles.modal}>
+        <div className={styles.modalContent}>
           <h2>로그인</h2>
 
           <p>

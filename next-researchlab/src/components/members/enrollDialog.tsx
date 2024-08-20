@@ -1,11 +1,19 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
+"use client";
+
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 
 import axios from "axios";
 import useValidation from "../../hooks/useValidation";
 import ErrorMessage from "./ErrorMessage";
 
-import "./enrollDialog.module.css";
+import styles from "./enrollDialog.module.css";
 
 // 유효성 검사
 const validateMemberId = (id: string) => /^[a-zA-Z0-9]{5,12}$/.test(id);
@@ -24,6 +32,12 @@ export type EnrollModalHandle = {
 const EnrollModal = forwardRef<EnrollModalHandle, { closeModal: () => void }>(
   function EnrollModal({ closeModal }, ref) {
     const enrollDialog = useRef<HTMLDialogElement>(null);
+
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+      setMounted(true); // 컴포넌트가 마운트된 후에 mounted를 true로 설정
+    }, []);
 
     // 입력값을 커스텀Hook으로 전달
     const memberId = useValidation(validateMemberId);
@@ -61,11 +75,19 @@ const EnrollModal = forwardRef<EnrollModalHandle, { closeModal: () => void }>(
       }
     };
 
+    if (!mounted) {
+      return null; // 아직 마운트되지 않았다면 아무것도 렌더링하지 않음
+    }
+
     // input태그 중복 코드 리팩토링 필요!
     return createPortal(
-      <dialog ref={enrollDialog} id="enrollModal-wrap" className="dialog">
-        <div className="modal">
-          <div className="modalContent">
+      <dialog
+        ref={enrollDialog}
+        id={styles["enrollModal-wrap"]}
+        className={styles.dialog}
+      >
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
             <h2>회원가입</h2>
             <p>
               아이디 :
@@ -73,7 +95,7 @@ const EnrollModal = forwardRef<EnrollModalHandle, { closeModal: () => void }>(
                 type="text"
                 value={memberId.value}
                 onChange={memberId.handleChange}
-                className={memberId.isValid ? "valid" : "invalid"}
+                className={memberId.isValid ? styles.valid : styles.invalid}
                 placeholder="영문, 숫자 5~12자"
               />
               {memberId.isInput && (
@@ -93,7 +115,7 @@ const EnrollModal = forwardRef<EnrollModalHandle, { closeModal: () => void }>(
                 type="password"
                 value={memberPwd.value}
                 onChange={memberPwd.handleChange}
-                className={memberPwd.isValid ? "valid" : "invalid"}
+                className={memberPwd.isValid ? styles.valid : styles.invalid}
                 placeholder="영문, 숫자, 특수문자를 포함한 8~16자"
               />
               {memberPwd.isInput && (
@@ -113,7 +135,7 @@ const EnrollModal = forwardRef<EnrollModalHandle, { closeModal: () => void }>(
                 type="text"
                 value={email.value}
                 onChange={email.handleChange}
-                className={email.isValid ? "valid" : "invalid"}
+                className={email.isValid ? styles.valid : styles.invalid}
               />
               {email.isInput && (
                 <ErrorMessage
@@ -128,7 +150,7 @@ const EnrollModal = forwardRef<EnrollModalHandle, { closeModal: () => void }>(
             </p>
           </div>
           <button
-            className="enrollBtn"
+            className={styles.enrollBtn}
             onClick={handleEnrollMember}
             disabled={!inInfoValid}
           >

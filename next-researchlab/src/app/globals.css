@@ -1,13 +1,14 @@
 .App {
   text-align: center;
 }
-.App *{
-  box-sizing: border-box;
 
+.App * {
+  box-sizing: border-box;
 }
-body{
+
+body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: radial-gradient(#303b37, #1a1f1d);
@@ -32,4 +33,3 @@ body{
   background-color: #444;
   margin: 40px 0;
 }
-

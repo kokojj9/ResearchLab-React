@@ -1,11 +1,13 @@
 import { useState } from "react";
 
-const useValidation = (validateFn, initialValue = "") => {
+type validateFn = (value: string) => boolean;
+
+const useValidation = (validateFn: validateFn, initialValue = "") => {
   const [value, setValue] = useState(initialValue);
   const [isValid, setIsValid] = useState(false);
   const [isInput, setIsInput] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setValue(value);
     setIsInput(true);
