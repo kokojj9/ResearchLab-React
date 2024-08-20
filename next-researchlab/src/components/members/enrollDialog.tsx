@@ -16,7 +16,7 @@ const validateMemberPwd = (password: string) =>
 const validateEmail = (email: string) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-type EnrollModalHandle = {
+export type EnrollModalHandle = {
   open: () => void;
   close: () => void;
 };

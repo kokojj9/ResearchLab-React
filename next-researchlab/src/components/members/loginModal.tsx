@@ -1,28 +1,31 @@
+import axios from "axios";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import axios from "axios";
 
 import "./loginModal.module.css";
 
-const LoginModal = forwardRef(function LoginModal(
-  { closeModal, getSession },
-  ref
-) {
-  const loginDialog = useRef();
+export type LoginModalHandle = {
+  open: () => void;
+  close: () => void;
+};
+
+const LoginModal = forwardRef<
+  LoginModalHandle,
+  { closeModal: () => void; getSession: () => void }
+>(function LoginModal({ closeModal, getSession }, ref) {
+  const loginDialog = useRef<HTMLDialogElement | null>(null);
 
   const [memberId, setMemberId] = useState("");
   const [memberPwd, setMemberPwd] = useState("");
 
-  useImperativeHandle(ref, () => {
-    return {
-      open() {
-        loginDialog.current.showModal();
-      },
-      close() {
-        loginDialog.current.close();
-      },
-    };
-  });
+  useImperativeHandle(ref, () => ({
+    open() {
+      loginDialog.current?.showModal();
+    },
+    close() {
+      loginDialog.current?.close();
+    },
+  }));
 
   const handleLogin = async () => {
     try {
@@ -42,7 +45,11 @@ const LoginModal = forwardRef(function LoginModal(
         alert("회원 정보를 정확히 입력해주세요");
       }
     } catch (error) {
-      console.error(error.response.data.resultMessage);
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data?.resultMessage || "로그인 실패");
+      } else {
+        console.error("알 수 없는 오류가 발생했습니다.");
+      }
     }
   };
 
@@ -73,7 +80,7 @@ const LoginModal = forwardRef(function LoginModal(
         <button onClick={closeModal}>닫기</button>
       </div>
     </dialog>,
-    document.getElementById("modal-root")
+    document.getElementById("modal-root") as HTMLElement
   );
 });
 

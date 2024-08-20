@@ -1,26 +1,33 @@
+import { MemberContext } from "@/context/MembetContext";
+import axios from "axios";
 import { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
-
-import axios from "axios";
-
+import Button from "../../components/members/button";
+import EnrollModal, {
+  EnrollModalHandle,
+} from "../../components/members/enrollDialog";
+import LoginModal, {
+  LoginModalHandle,
+} from "../../components/members/loginModal";
 import "./main-header.module.css";
 
-import { MemberContext } from "../../context/MembetContext";
-import Button from "../../components/members/button";
-import LoginModal from "../../components/members/loginModal";
-import EnrollModal from "../../components/members/enrollDialog";
-
 const Header = () => {
-  const { member, getSession, setMember } = useContext(MemberContext);
+  const memberContext = useContext(MemberContext);
 
-  const loginDialog = useRef();
-  const enrollDialog = useRef();
+  if (!memberContext) {
+    throw new Error("MemberContext를 찾을 수 없음");
+  }
 
-  const openLoginModal = () => loginDialog.current.open();
-  const openEnrollModal = () => enrollDialog.current.open();
+  const { member, getSession, setMember } = memberContext;
+
+  const loginDialog = useRef<LoginModalHandle | null>(null);
+  const enrollDialog = useRef<EnrollModalHandle | null>(null);
+
+  const openLoginModal = () => loginDialog.current?.open();
+  const openEnrollModal = () => enrollDialog.current?.open();
   const closeModal = () => {
-    loginDialog.current.close();
-    enrollDialog.current.close();
+    loginDialog.current?.close();
+    enrollDialog.current?.close();
   };
 
   const handleLogout = async () => {
@@ -68,7 +75,7 @@ const Header = () => {
         <div id="memberServiceArea">
           {member ? (
             <>
-              <p>{member.memberId}님 반갑습니다.</p>
+              <p>{member.id}님 반갑습니다.</p>
               <Button onSelect={handleLogout}>로그아웃</Button>
             </>
           ) : (
