@@ -1,0 +1,88 @@
+.header {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1200px;
+  height: 75px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+
+.logo {
+  color: #ffaa00;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right, #ffaa00, #ff8800);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.menuList {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.menuList ul {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menuList ul > li {
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  padding: 0 10px;
+  background-color: rgba(48, 59, 55, 0.8);
+  color: #e1eeeb;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menuList ul > li > .menuLink {
+  color: #e1eeeb;
+  text-decoration: none;
+}
+
+.menuList ul > li:hover {
+  background-color: #ffaa00;
+  color: #303b37;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#memberServiceArea {
+  display: flex;
+  align-items: center;
+}
+
+#memberServiceArea button {
+  margin-left: 5px;
+  padding: 0.5rem 1rem;
+  border: 1px solid;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #ffaa00;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+#memberServiceArea button:hover {
+  background-color: #ffaa00;
+  color: #303b37;
+  font-weight: 600;
+}
+
+#memberServiceArea p {
+  margin-right: 10px;
+}
