@@ -2,8 +2,8 @@
 
 import { MemberContext } from "@/context/MemberContext";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const NewPost = () => {
   const memberContext = useContext(MemberContext);
@@ -16,7 +16,7 @@ const NewPost = () => {
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
   const [previewImage, setPreviewImage] = useState([]);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleContentChange = (e) => setContent(e.target.value);
@@ -58,7 +58,7 @@ const NewPost = () => {
       });
 
       if (response.status === 200) {
-        navigate("/tradeBoard");
+        router.push("/strategylab");
       }
     } catch (error) {
       console.log("실패", error);
