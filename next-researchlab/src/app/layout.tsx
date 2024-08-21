@@ -1,3 +1,5 @@
+import Header from "@/components/main-header/main-header";
+import { MemberProvider } from "@/context/MemberContext";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -16,7 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body>
+        <MemberProvider>
+          <Header />
+          {children}
+          <div id="modal-root"></div>
+        </MemberProvider>
+      </body>
     </html>
   );
 }
