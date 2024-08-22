@@ -2,8 +2,9 @@
 
 import { MemberContext } from "@/context/MemberContext";
 import axios from "axios";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const NewPost = () => {
   const memberContext = useContext(MemberContext);
@@ -14,19 +15,24 @@ const NewPost = () => {
   const { member } = memberContext;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [images, setImages] = useState([]);
-  const [previewImage, setPreviewImage] = useState([]);
-  const navigate = useNavigate();
+  const [images, setImages] = useState<File[]>([]);
+  const [previewImage, setPreviewImage] = useState<string[]>([]);
+  const router = useRouter();
 
-  const handleTitleChange = (e) => setTitle(e.target.value);
-  const handleContentChange = (e) => setContent(e.target.value);
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setTitle(e.target.value);
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    setContent(e.target.value);
+  // 이벤트타입의 경우 React접두사가 필요함
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    setImages(files);
-
-    const previewFiles = files.map((file) => URL.createObjectURL(file));
-    setPreviewImage(previewFiles);
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files);
+      setImages(fileArray);
+      const previewFiles = fileArray.map((file) => URL.createObjectURL(file));
+      setPreviewImage(previewFiles);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -37,7 +43,7 @@ const NewPost = () => {
     const tradePost = {
       title,
       content,
-      writer: member.memberId,
+      writer: member!.id,
       imageList: images.map((image) => ({ originalName: image.name })),
     };
 
@@ -58,7 +64,7 @@ const NewPost = () => {
       });
 
       if (response.status === 200) {
-        navigate("/tradeBoard");
+        router.push("/strategylab");
       }
     } catch (error) {
       console.log("실패", error);
@@ -106,12 +112,13 @@ const NewPost = () => {
             <div>
               <h4>미리보기</h4>
               {previewImage.map((src, i) => (
-                <img
+                <Image
                   key={i}
                   src={src}
+                  width={300}
+                  height={300}
+                  alt="미리보기"
                   style={{
-                    width: "300px",
-                    height: "300px",
                     objectFit: "cover",
                     margin: "5px",
                   }}
