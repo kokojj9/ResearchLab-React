@@ -3,8 +3,9 @@
 import { MemberContext } from "@/context/MemberContext";
 import axios from "axios";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useContext, useState } from "react";
+import styles from "./page.module.css";
 
 const NewPost = () => {
   const memberContext = useContext(MemberContext);
@@ -35,12 +36,12 @@ const NewPost = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData();
 
-    const tradePost = {
+    const post = {
       title,
       content,
       writer: member!.id,
@@ -48,8 +49,8 @@ const NewPost = () => {
     };
 
     formData.append(
-      "tradePost",
-      new Blob([JSON.stringify(tradePost)], { type: "application/json" })
+      "post",
+      new Blob([JSON.stringify(post)], { type: "application/json" })
     );
 
     images.forEach((image) => {
@@ -74,17 +75,17 @@ const NewPost = () => {
   return (
     <>
       {member ? (
-        <div className="new-trade-post">
-          <h2 className="form-title">새 글 작성</h2>
-          <form className="post-form" onSubmit={handleSubmit}>
-            <div className="form-group">
+        <div className={styles["new-trade-post"]}>
+          <h2 className={styles["form-title"]}>새 글 작성</h2>
+          <form className={styles["post-form"]} onSubmit={handleSubmit}>
+            <div className={styles["form-group"]}>
               <label htmlFor="title">제목: </label>
               <input
                 type="text"
                 value={title}
                 id="title"
                 onChange={handleTitleChange}
-                className="form-control"
+                className={styles["form-control"]}
                 required
               />
             </div>
@@ -94,16 +95,16 @@ const NewPost = () => {
                 value={content}
                 id="content"
                 onChange={handleContentChange}
-                className="form-control"
+                className={styles["form-control"]}
                 required
               />
             </div>
-            <div className="form-group">
+            <div className={styles["form-group"]}>
               <label htmlFor="images">사진</label>
               <input
                 type="file"
                 id="images"
-                className="form-control"
+                className={styles["form-control"]}
                 onChange={handleImageChange}
                 multiple
                 accept="image/*"
@@ -125,7 +126,7 @@ const NewPost = () => {
                 />
               ))}
             </div>
-            <button type="submit" className="submit-btn">
+            <button type="submit" className={styles["submit-btn"]}>
               작성하기
             </button>
           </form>
