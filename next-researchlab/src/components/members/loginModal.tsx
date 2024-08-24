@@ -9,6 +9,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 
+import { MemberType } from "@/context/MemberContext";
 import styles from "./loginModal.module.css";
 
 export type LoginModalHandle = {
@@ -18,8 +19,11 @@ export type LoginModalHandle = {
 
 const LoginModal = forwardRef<
   LoginModalHandle,
-  { closeModal: () => void; getSession: () => void }
->(function LoginModal({ closeModal, getSession }, ref) {
+  {
+    closeModal: () => void;
+    login: (member: MemberType) => void;
+  }
+>(function LoginModal({ closeModal, login }, ref) {
   const loginDialog = useRef<HTMLDialogElement | null>(null);
 
   const [mounted, setMounted] = useState(false);
@@ -50,9 +54,9 @@ const LoginModal = forwardRef<
         },
         { withCredentials: true }
       );
-
+      console.log(response);
       if (response.data.resultMessage === "로그인 성공") {
-        getSession();
+        login(response.data.data);
         closeModal();
       } else {
         alert("회원 정보를 정확히 입력해주세요");

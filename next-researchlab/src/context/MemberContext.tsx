@@ -1,17 +1,17 @@
 "use client";
-import axios from "axios";
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 
 export type MemberType = {
-  id: string;
-  name: string;
+  memberNo: number;
+  memberId: string;
   email: string;
 };
 
 export type MemberContextType = {
   member: MemberType | null;
   setMember: (member: MemberType | null) => void;
-  getSession: () => void;
+  login: (member: MemberType) => void;
+  logout: () => void;
 };
 
 export const MemberContext = createContext<MemberContextType | undefined>(
@@ -24,24 +24,18 @@ export const MemberProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [member, setMember] = useState<MemberType | null>(null);
 
-  useEffect(() => {
-    getSession();
-  }, []);
+  const login = (member: MemberType) => {
+    localStorage.setItem("loginMember", JSON.stringify(member));
+    setMember(member);
+  };
 
-  const getSession = () => {
-    axios({
-      method: "get",
-      url: "/members/getSession",
-      withCredentials: true,
-    }).then((response) => {
-      if (response.data != null) {
-        setMember(response.data.data);
-      }
-    });
+  const logout = () => {
+    localStorage.removeItem("loginMember");
+    setMember(null);
   };
 
   return (
-    <MemberContext.Provider value={{ member, setMember, getSession }}>
+    <MemberContext.Provider value={{ member, setMember, login, logout }}>
       {children}
     </MemberContext.Provider>
   );

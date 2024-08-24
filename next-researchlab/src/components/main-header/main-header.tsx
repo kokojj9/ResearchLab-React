@@ -22,10 +22,10 @@ const Header = () => {
     throw new Error("MemberContext를 찾을 수 없음");
   }
 
-  const { member, getSession, setMember } = memberContext;
+  const { member, login, logout } = memberContext;
 
-  const loginDialog = useRef<LoginModalHandle | null>(null);
-  const enrollDialog = useRef<EnrollModalHandle | null>(null);
+  const loginDialog = useRef<LoginModalHandle>(null);
+  const enrollDialog = useRef<EnrollModalHandle>(null);
 
   const openLoginModal = () => loginDialog.current?.open();
   const openEnrollModal = () => enrollDialog.current?.open();
@@ -37,7 +37,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       await axios.post("/members/logout", {}, { withCredentials: true });
-      setMember(null);
+      logout();
     } catch (error) {
       console.error("로그아웃 실패", error);
     }
@@ -79,7 +79,7 @@ const Header = () => {
         <div id={styles.memberServiceArea}>
           {member ? (
             <>
-              <p>{member.id}님 반갑습니다.</p>
+              <p>{member.memberId}님 반갑습니다.</p>
               <Button onSelect={handleLogout}>로그아웃</Button>
             </>
           ) : (
@@ -90,11 +90,7 @@ const Header = () => {
           )}
         </div>
       </header>
-      <LoginModal
-        ref={loginDialog}
-        closeModal={closeModal}
-        getSession={getSession}
-      />
+      <LoginModal ref={loginDialog} closeModal={closeModal} login={login} />
       <EnrollModal ref={enrollDialog} closeModal={closeModal} />
     </>
   );
