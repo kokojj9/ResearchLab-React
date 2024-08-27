@@ -11,7 +11,7 @@ export interface Post {
   imageList: image[];
 }
 
-interface PostItemProps {
+export interface PostItemProps {
   post: Post;
 }
 

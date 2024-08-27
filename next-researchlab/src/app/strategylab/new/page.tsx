@@ -44,7 +44,7 @@ const NewPost = () => {
     const post = {
       title,
       content,
-      writer: member!.id,
+      writer: member!.memberId,
       imageList: images.map((image) => ({ originalName: image.name })),
     };
 
