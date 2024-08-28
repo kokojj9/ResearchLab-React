@@ -46,6 +46,7 @@ const StrategyPostDetail = () => {
         <p>게시글을 찾을 수 없음</p>
       )}
     </div>
+
   );
 };
 

@@ -1,7 +1,4 @@
 /** @type {import('next').NextConfig} */
-<<<<<<< Updated upstream
-const nextConfig = {};
-=======
 const nextConfig = {
   async rewrites() {
     return [
@@ -16,6 +13,5 @@ const nextConfig = {
     ];
   },
 };
->>>>>>> Stashed changes
 
 export default nextConfig;
