@@ -16,6 +16,7 @@ const StrategyPostDetail = () => {
   useEffect(() => {
     if (postNo) {
       const fetchPost = async () => {
+        console.log("상세글 조회");
         try {
           const response = await axios.get(`/api/tradeBoard/${postNo.postNo}`);
           setPost(response.data);
