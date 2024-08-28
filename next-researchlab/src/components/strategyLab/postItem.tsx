@@ -36,7 +36,6 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
             height={300}
             width={300}
             priority
-            unoptimized
           />
         ))}
         <div className={styles["trade-post-content"]}>
