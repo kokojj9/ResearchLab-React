@@ -1,55 +1,52 @@
 "use client";
 
+import { Post } from "@/components/strategyLab/postItem";
+import axios from "axios";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+
 const StrategyPostDetail = () => {
-  // const postNo = useParams<{ postNo: string }>();
-  // console.log(postNo);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [post, setPost] = useState<PostItemProps | null>(null);
+  const postNo = useParams<{ postNo: string }>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [post, setPost] = useState<Post | null>(null);
 
-  //더미 데이터
-  // const post = {
-  //   postNo,
-  //   memberId: "testMember",
-  //   title: "테스트" + postNo,
-  //   content: "내용" + postNo,
-  //   img: "https://i.namu.wiki/i/8N3IbreE6Wc57iuEkNzTbtbtKZpges0e1bWaZPI1paspjk71uGWU5ttRZUy6mD8_UNED1Y4oSTPZgvzhBm5nlQ.webp",
-  //   likes: 66,
-  // };
-
-  // useEffect(() => {
-  //   if (postNo) {
-  //     const fetchPost = async () => {
-  //       try {
-  //         console.log("요청");
-  //         const response = await axios.get(`/tradeBoard/${postNo}`);
-  //         setPost(response.data);
-  //         setIsLoading(false);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     };
-  //     fetchPost();
-  //   }
-  // }, [postNo]);
+  useEffect(() => {
+    if (postNo?.postNo) {
+      const fetchPost = async () => {
+        try {
+          const response = await axios.get(`/api/tradeBoard/${postNo.postNo}`);
+          setPost(response.data);
+          setIsLoading(false);
+          console.log(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchPost();
+    }
+  }, [postNo]);
 
   return (
-    <h1>123</h1>
-    // <div style={{ textAlign: "center", padding: "20px", color: "#e1eeeb" }}>
-    //   {isLoading == true ? (
-    //     <h1>Loading...</h1>
-    //   ) : (
-    //     <>
-    //       <h1>{post!.post.title}</h1>
-    //       <p>작성자: {post!.post.writer}</p>
-    //       <Image
-    //         src={`/${post!.post.imageList[0].storedName}`}
-    //         alt={post!.post.title}
-    //         style={{ width: "400px", height: "auto", borderRadius: "8px" }}
-    //       />
-    //       <p>{post?.post.content}</p>
-    //     </>
-    //   )}
-    // </div>
+    <div style={{ textAlign: "center", padding: "20px", color: "#e1eeeb" }}>
+      {isLoading == true ? (
+        <h1>Loading...</h1>
+      ) : post ? (
+        <>
+          <h1>{post!.title}</h1>
+          <p>작성자: {post!.writer}</p>
+          <Image
+            src={`/${post!.imageList[0].storedName}`}
+            alt={post!.title}
+            style={{ width: "400px", height: "auto", borderRadius: "8px" }}
+          />
+          <p>{post!.content}</p>
+        </>
+      ) : (
+        <p>게시글을 찾을 수 없음</p>
+      )}
+    </div>
+
   );
 };
 
