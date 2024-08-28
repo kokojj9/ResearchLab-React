@@ -4,7 +4,7 @@ import { Post } from "@/components/strategyLab/postItem";
 import PostList from "@/components/strategyLab/postList";
 import axios from "axios";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
 const StrategylabBoard = () => {
@@ -13,24 +13,24 @@ const StrategylabBoard = () => {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchPosts = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get("/tradeBoard", {
-        params: { page, size: 15 },
-      });
-      setPosts((prevPosts) => [...prevPosts, ...response.data.content]);
-      setHasMore(!response.data.last);
-    } catch (error) {
-      console.error("조회 실패", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [page]);
-
   useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("/api/tradeBoard", {
+
+          params: { page, size: 15 },
+        });
+        setPosts((prevPosts) => [...prevPosts, ...response.data.content]);
+        setHasMore(!response.data.last);
+      } catch (error) {
+        console.error("조회 실패", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     fetchPosts();
-  }, [fetchPosts]);
+  }, [page]);
 
   return (
     <div className={styles["trade-diary-board"]}>

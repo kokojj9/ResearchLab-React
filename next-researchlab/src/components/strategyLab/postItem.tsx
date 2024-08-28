@@ -11,7 +11,7 @@ export interface Post {
   imageList: image[];
 }
 
-interface PostItemProps {
+export interface PostItemProps {
   post: Post;
 }
 
@@ -35,6 +35,8 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
             alt={image.title}
             height={300}
             width={300}
+            priority
+            unoptimized
           />
         ))}
         <div className={styles["trade-post-content"]}>
