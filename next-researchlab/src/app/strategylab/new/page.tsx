@@ -2,8 +2,10 @@
 
 import { MemberContext } from "@/context/MemberContext";
 import axios from "axios";
-import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useContext, useState } from "react";
+import styles from "./page.module.css";
 
 const NewPost = () => {
   const memberContext = useContext(MemberContext);
@@ -14,36 +16,41 @@ const NewPost = () => {
   const { member } = memberContext;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [images, setImages] = useState([]);
-  const [previewImage, setPreviewImage] = useState([]);
+  const [images, setImages] = useState<File[]>([]);
+  const [previewImage, setPreviewImage] = useState<string[]>([]);
   const router = useRouter();
 
-  const handleTitleChange = (e) => setTitle(e.target.value);
-  const handleContentChange = (e) => setContent(e.target.value);
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setTitle(e.target.value);
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    setContent(e.target.value);
+  // 이벤트타입의 경우 React접두사가 필요함
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    setImages(files);
-
-    const previewFiles = files.map((file) => URL.createObjectURL(file));
-    setPreviewImage(previewFiles);
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files);
+      setImages(fileArray);
+      const previewFiles = fileArray.map((file) => URL.createObjectURL(file));
+      setPreviewImage(previewFiles);
+    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData();
 
-    const tradePost = {
+    const post = {
       title,
       content,
-      writer: member.memberId,
+      writer: member!.memberId,
       imageList: images.map((image) => ({ originalName: image.name })),
     };
 
     formData.append(
-      "tradePost",
-      new Blob([JSON.stringify(tradePost)], { type: "application/json" })
+      "post",
+      new Blob([JSON.stringify(post)], { type: "application/json" })
     );
 
     images.forEach((image) => {
@@ -68,17 +75,17 @@ const NewPost = () => {
   return (
     <>
       {member ? (
-        <div className="new-trade-post">
-          <h2 className="form-title">새 글 작성</h2>
-          <form className="post-form" onSubmit={handleSubmit}>
-            <div className="form-group">
+        <div className={styles["new-trade-post"]}>
+          <h2 className={styles["form-title"]}>새 글 작성</h2>
+          <form className={styles["post-form"]} onSubmit={handleSubmit}>
+            <div className={styles["form-group"]}>
               <label htmlFor="title">제목: </label>
               <input
                 type="text"
                 value={title}
                 id="title"
                 onChange={handleTitleChange}
-                className="form-control"
+                className={styles["form-control"]}
                 required
               />
             </div>
@@ -88,16 +95,16 @@ const NewPost = () => {
                 value={content}
                 id="content"
                 onChange={handleContentChange}
-                className="form-control"
+                className={styles["form-control"]}
                 required
               />
             </div>
-            <div className="form-group">
+            <div className={styles["form-group"]}>
               <label htmlFor="images">사진</label>
               <input
                 type="file"
                 id="images"
-                className="form-control"
+                className={styles["form-control"]}
                 onChange={handleImageChange}
                 multiple
                 accept="image/*"
@@ -106,19 +113,20 @@ const NewPost = () => {
             <div>
               <h4>미리보기</h4>
               {previewImage.map((src, i) => (
-                <img
+                <Image
                   key={i}
                   src={src}
+                  width={300}
+                  height={300}
+                  alt="미리보기"
                   style={{
-                    width: "300px",
-                    height: "300px",
                     objectFit: "cover",
                     margin: "5px",
                   }}
                 />
               ))}
             </div>
-            <button type="submit" className="submit-btn">
+            <button type="submit" className={styles["submit-btn"]}>
               작성하기
             </button>
           </form>

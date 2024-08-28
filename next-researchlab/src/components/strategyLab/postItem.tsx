@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import styles from "./postItem.module.css";
 
@@ -10,7 +11,7 @@ export interface Post {
   imageList: image[];
 }
 
-interface PostItemProps {
+export interface PostItemProps {
   post: Post;
 }
 
@@ -28,7 +29,13 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
         className={styles["trade-post-link"]}
       >
         {post.imageList.map((image) => (
-          <img src={image.storedName} alt={post.title} />
+          <Image
+            key={image.title}
+            src={`/${image.storedName}`} // nextjs Image에서는 절대경로로
+            alt={image.title}
+            height={300}
+            width={300}
+          />
         ))}
         <div className={styles["trade-post-content"]}>
           <h2>{post.title}</h2>
