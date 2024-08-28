@@ -15,8 +15,6 @@ const StrategylabBoard = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      setIsLoading(true);
-
       try {
         const response = await axios.get("/api/tradeBoard", {
           params: { page, size: 15 },
