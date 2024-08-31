@@ -47,7 +47,7 @@ const LoginModal = forwardRef<
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "/members/login",
+        "api/members/login",
         {
           memberId: memberId,
           memberPwd: memberPwd,

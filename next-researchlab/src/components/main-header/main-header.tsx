@@ -36,7 +36,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("/members/logout", {}, { withCredentials: true });
+      await axios.post("api/members/logout", {}, { withCredentials: true });
       logout();
     } catch (error) {
       console.error("로그아웃 실패", error);

@@ -2,11 +2,10 @@
 
 import { Post } from "@/components/strategyLab/postItem";
 import axios from "axios";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import classes from "./page.module.css";
+import PostDetail from "@/components/strategyLab/postDetail";
 
 const StrategyPostDetail = () => {
   const postNo = useParams<{ postNo: string }>();
@@ -32,25 +31,7 @@ const StrategyPostDetail = () => {
 
   return (
     <div style={{ textAlign: "center", padding: "20px", color: "#e1eeeb" }}>
-      {isLoading == true ? (
-        <h1>Loading...</h1>
-      ) : (
-        <>
-          <h1>{post!.title}</h1>
-          <p>작성자: {post!.writer}</p>
-          <Image
-            className={classes.imageClass}
-            src={`/${post!.imageList[0].storedName}`}
-            alt={post!.title}
-            width={100}
-            height={100}
-            style={{ borderRadius: "8px" }}
-            unoptimized
-            priority
-          />
-          <p>{post?.content}</p>
-        </>
-      )}
+      {isLoading == true ? <h1>Loading...</h1> : <PostDetail post={post!} />}
     </div>
   );
 };
