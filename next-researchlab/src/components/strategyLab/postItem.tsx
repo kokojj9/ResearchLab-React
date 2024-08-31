@@ -35,7 +35,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
             alt={image.title}
             height={300}
             width={300}
-            priority
+            priority // Image 태그 최적화 비활성화
           />
         ))}
         <div className={styles["trade-post-content"]}>
