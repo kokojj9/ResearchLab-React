@@ -17,14 +17,15 @@ const memberSlice = createSlice({
   reducers: {
     login: (state: Member | null, action: PayloadAction<Member>) => {
       localStorage.setItem("loginMember", JSON.stringify(action.payload));
-      state = action.payload;
+      console.log("회원정보 로컬스토리지저장");
+      return action.payload;
     },
     logout: () => {
       localStorage.removeItem("loginMember");
       return null;
     },
     setMember: (state: Member | null, action: PayloadAction<Member | null>) => {
-      state = action.payload;
+      return action.payload;
     },
   },
 });

@@ -4,8 +4,6 @@ import Link from "next/link";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import axios from "axios";
-
 import styles from "./main-header.module.css";
 
 import { login, logout, Member } from "@/redux/memberActions";
@@ -44,8 +42,8 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("api/members/logout", {}, { withCredentials: true });
-      dispatch(logout());
+      // await axios.post("api/members/logout", {}, { withCredentials: true });
+      dispatch(logout(null));
     } catch (error) {
       console.error("로그아웃 실패", error);
     }
