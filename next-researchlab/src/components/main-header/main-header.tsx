@@ -1,12 +1,12 @@
 "use client";
-import Link from "next/link";
-import { useContext, useRef } from "react";
 
-import axios from "axios";
+import Link from "next/link";
+import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./main-header.module.css";
 
-import { MemberContext } from "@/context/MemberContext";
+import { login, logout, Member } from "@/redux/memberActions";
 import Button from "../../components/members/button";
 import EnrollModal, {
   EnrollModalHandle,
@@ -14,15 +14,21 @@ import EnrollModal, {
 import LoginModal, {
   LoginModalHandle,
 } from "../../components/members/loginModal";
+import { RootState } from "../../redux/memberActions";
 
 const Header = () => {
-  const memberContext = useContext(MemberContext);
+  // const memberContext = useContext(MemberContext);
 
-  if (!memberContext) {
-    throw new Error("MemberContext를 찾을 수 없음");
-  }
+  // if (!memberContext) {
+  //   throw new Error("MemberContext를 찾을 수 없음");
+  // }
 
-  const { member, login, logout } = memberContext;
+  // const { member, login, logout } = memberContext;
+
+  const dispatch = useDispatch();
+  const member = useSelector(
+    (state: RootState) => state.member
+  ) as Member | null;
 
   const loginDialog = useRef<LoginModalHandle>(null);
   const enrollDialog = useRef<EnrollModalHandle>(null);
@@ -36,8 +42,8 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("api/members/logout", {}, { withCredentials: true });
-      logout();
+      // await axios.post("api/members/logout", {}, { withCredentials: true });
+      dispatch(logout(null));
     } catch (error) {
       console.error("로그아웃 실패", error);
     }
@@ -90,7 +96,11 @@ const Header = () => {
           )}
         </div>
       </header>
-      <LoginModal ref={loginDialog} closeModal={closeModal} login={login} />
+      <LoginModal
+        ref={loginDialog}
+        closeModal={closeModal}
+        login={(member) => dispatch(login(member))}
+      />
       <EnrollModal ref={enrollDialog} closeModal={closeModal} />
     </>
   );

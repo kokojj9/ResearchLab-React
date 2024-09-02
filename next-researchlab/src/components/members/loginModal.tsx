@@ -57,6 +57,7 @@ const LoginModal = forwardRef<
       console.log(response);
       if (response.data.resultMessage === "로그인 성공") {
         login(response.data.data);
+        console.log(response.data.data);
         closeModal();
       } else {
         alert("회원 정보를 정확히 입력해주세요");

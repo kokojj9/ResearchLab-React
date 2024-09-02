@@ -1,9 +1,8 @@
+import HeaderWrapper from "@/components/main-header/headerWrapper";
 import Header from "@/components/main-header/main-header";
-import { MemberProvider } from "@/context/MemberContext";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,11 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <MemberProvider>
+        <HeaderWrapper>
           <Header />
           {children}
           <div id="modal-root"></div>
-        </MemberProvider>
+        </HeaderWrapper>
       </body>
     </html>
   );
