@@ -41,6 +41,8 @@ const LoginModal = forwardRef<
     },
     close() {
       loginDialog.current?.close();
+      setMemberId("");
+      setMemberPwd("");
     },
   }));
 

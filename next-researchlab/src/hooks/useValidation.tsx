@@ -14,11 +14,18 @@ const useValidation = (validateFn: validateFn, initialValue = "") => {
     setIsValid(validateFn(value));
   };
 
+  const reset = () => {
+    setValue(initialValue);
+    setIsValid(false);
+    setIsInput(false);
+  };
+
   return {
     value,
     isValid,
     isInput,
     handleChange,
+    reset,
   };
 };
 

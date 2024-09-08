@@ -16,7 +16,7 @@ const StrategylabBoard = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("/api/tradeBoard", {
+        const response = await axios.get("/api/strategylab", {
           params: { page, size: 15 },
         });
         setPosts((prevPosts) => [...prevPosts, ...response.data.content]);
