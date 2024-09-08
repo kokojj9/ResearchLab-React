@@ -55,6 +55,13 @@ const EnrollModal = forwardRef<EnrollModalHandle, { closeModal: () => void }>(
       },
     }));
 
+    const handelClose = () => {
+      memberId.reset();
+      memberPwd.reset();
+      email.reset();
+      closeModal();
+    };
+
     const handleEnrollMember = async () => {
       if (!memberId.value || !memberPwd.value || !email.value) {
         alert("회원 정보를 모두 입력해주세요");
@@ -156,7 +163,7 @@ const EnrollModal = forwardRef<EnrollModalHandle, { closeModal: () => void }>(
           >
             회원 가입
           </button>
-          <button onClick={closeModal}>닫기</button>
+          <button onClick={handelClose}>닫기</button>
         </div>
       </dialog>,
       document.getElementById("modal-root") as HTMLElement

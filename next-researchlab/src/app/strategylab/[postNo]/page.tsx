@@ -17,7 +17,7 @@ const StrategyPostDetail = () => {
       const fetchPost = async () => {
         console.log("상세글 조회");
         try {
-          const response = await axios.get(`/api/tradeBoard/${postNo.postNo}`);
+          const response = await axios.get(`/api/strategylab/${postNo.postNo}`);
           setPost(response.data);
           setIsLoading(false);
         } catch (error) {

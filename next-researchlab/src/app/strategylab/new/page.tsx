@@ -58,7 +58,7 @@ const NewPost = () => {
     });
 
     try {
-      const response = await axios.post("/tradeBoard/posts", formData, {
+      const response = await axios.post("/strategylab/posts", formData, {
         headers: {
           "content-Type": "multipart/form-data",
         },
