@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
+let flag = true;
+
 const StrategylabBoard = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,16 +21,19 @@ const StrategylabBoard = () => {
         const response = await axios.get("/api/strategylab", {
           params: { page, size: 15 },
         });
+        console.log(response.data.content);
         setPosts((prevPosts) => [...prevPosts, ...response.data.content]);
         setHasMore(!response.data.last);
+        setIsLoading(false);
       } catch (error) {
         console.error("조회 실패", error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
-    fetchPosts();
+    if (flag) {
+      fetchPosts();
+      flag = false;
+    }
   }, [page]);
 
   return (
