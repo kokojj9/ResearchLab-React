@@ -27,7 +27,7 @@ const PostDetail: React.FC<{ post: Post }> = ({ post }) => {
     if (response.status === 200) {
       console.log("게시글 삭제 성공");
     } else {
-      console.log("게시글 삭제 실패: ${response.status}");
+      console.log(`게시글 삭제 실패: ${response.status}`);
     }
     return;
   };
@@ -47,7 +47,7 @@ const PostDetail: React.FC<{ post: Post }> = ({ post }) => {
       <Image
         className={classes.imageClass}
         src={`/${post!.imageList[0].storedName}`}
-        alt={post!.title}
+        alt={post.title}
         width={100}
         height={100}
         style={{ borderRadius: "8px" }}
