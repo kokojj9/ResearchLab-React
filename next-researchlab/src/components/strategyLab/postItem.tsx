@@ -31,7 +31,6 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
         className={styles["trade-post-link"]}
       >
         <Image
-          key={post.imageList[0].imageNo}
           src={`/${post.imageList[0].storedName}`} // nextjs Image에서는 절대경로로
           alt="게시글메인이미지"
           height={300}
