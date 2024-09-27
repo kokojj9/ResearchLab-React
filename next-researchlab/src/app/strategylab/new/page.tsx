@@ -1,19 +1,18 @@
 "use client";
 
-import { MemberContext } from "@/context/MemberContext";
+import { Member, RootState } from "@/redux/memberActions";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styles from "./page.module.css";
 
 const NewPost = () => {
-  const memberContext = useContext(MemberContext);
+  const member = useSelector(
+    (state: RootState) => state.member
+  ) as Member | null;
 
-  if (!memberContext) {
-    throw new Error("MemberContext를 찾을 수 없음");
-  }
-  const { member } = memberContext;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState<File[]>([]);
@@ -58,7 +57,7 @@ const NewPost = () => {
     });
 
     try {
-      const response = await axios.post("/tradeBoard/posts", formData, {
+      const response = await axios.post("/strategylab/posts", formData, {
         headers: {
           "content-Type": "multipart/form-data",
         },
@@ -132,7 +131,9 @@ const NewPost = () => {
           </form>
         </div>
       ) : (
-        <h4>회원 서비스입니다.</h4>
+        <h4 style={{ textAlign: "center" }}>
+          회원 서비스입니다. 로그인 해주세요
+        </h4>
       )}
     </>
   );
