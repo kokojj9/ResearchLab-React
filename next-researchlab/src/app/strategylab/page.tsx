@@ -9,38 +9,51 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./page.module.css";
 
-let flag = true;
-
 const StrategylabBoard = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [viewType, setViewType] = useState("all");
 
   const member = useSelector(
     (state: RootState) => state.member
   ) as Member | null;
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await axios.get("/api/strategylab/posts", {
-          params: { page, size: 15 },
-        });
-        // console.log(response.data.content);
-        setPosts((prevPosts) => [...prevPosts, ...response.data.content]);
-        setHasMore(!response.data.last);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("조회 실패", error);
-      }
-    };
-
-    if (flag) {
-      fetchPosts();
-      flag = false;
+  // 전체 글, 내 글 조회 요청 공용 메서드
+  const fetchPosts = async (url: string, params = {}) => {
+    try {
+      const response = await axios.get(url, params); // 글조회, 내글조회 중복으로 url를 동적으로 취급 할 수 있게끔 매개변수로 변경
+      setPosts((prevPost) => [...prevPost, ...response.data.content]);
+      setHasMore(!response.data.last);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("조회 실패", error);
     }
-  }, [page]);
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    if (viewType === "all") {
+      fetchPosts("/api/strategylab/posts", { page, size: 15 });
+    } else if (viewType === "my") {
+      if (member) {
+        fetchPosts(`/api/strategylab/members/${member!.memberId}/posts`, {
+          page,
+          size: 15,
+        });
+      } else {
+        alert("로그인이 필요합니다.");
+      }
+    }
+  }, [page, viewType, member]);
+
+  const handleViewChange = (type: string) => {
+    setPage(0);
+    setPosts([]);
+    setViewType(type);
+  };
 
   return (
     <div className={styles["trade-diary-board"]}>
@@ -56,9 +69,15 @@ const StrategylabBoard = () => {
               글쓰기 (로그인 필요)
             </button>
           )}
-          <Link href="/strategylab/myPosts" className={styles.btn}>
+          <button
+            className={styles.btn}
+            onClick={() => handleViewChange("all")}
+          >
+            전체 글 목록 보기
+          </button>
+          <button className={styles.btn} onClick={() => handleViewChange("my")}>
             내 글 목록 보기
-          </Link>
+          </button>
         </div>
       </header>
       <main>{isLoading ? <p>Loading...</p> : <PostList posts={posts} />}</main>
