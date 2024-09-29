@@ -10,19 +10,7 @@ const MyPosts = () => {
     (state: RootState) => state.member
   ) as Member | null;
 
-  useEffect(() => {
-    const fetchMyPost = async () => {
-      try {
-        const response = await axios.get(
-          `/api/strategylab/members/${member?.memberId}/posts`
-        );
-
-        console.log("내 글 조회");
-      } catch (error) {}
-    };
-
-    fetchMyPost();
-  }, []);
+  useEffect(() => {}, [member]);
 
   return (
     <>
