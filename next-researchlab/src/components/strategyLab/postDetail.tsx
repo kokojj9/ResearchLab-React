@@ -12,18 +12,18 @@ const PostDetail: React.FC<{ post: Post }> = ({ post }) => {
     (state: RootState) => state.member
   ) as Member | null;
 
-  const deletePost = async (postNo) => {
-    const storedMemberId = localStorage.getItem("memberId");
+  const deletePost = async (postNo: number) => {
+    const memberId = member?.memberId;
 
-    if (!storedMemberId) {
+    if (!memberId) {
       console.log("로그인된 사용자가 없습니다.");
       return;
     }
 
-    const response = await axios.delete("/api/strategylab/${postNo}", {
-      data: { storedMemberId },
+    const response = await axios.delete(`/api/strategylab/posts/${postNo}`, {
+      params: { memberId },
     });
-
+    console.log(response);
     if (response.status === 200) {
       console.log("게시글 삭제 성공");
     } else {
@@ -38,7 +38,7 @@ const PostDetail: React.FC<{ post: Post }> = ({ post }) => {
       {member?.memberId == post.writer ? (
         <p>
           <button>수정하기</button>
-          <button onClick={deletePost}>삭제하기</button>
+          <button onClick={() => deletePost(post.postNo)}>삭제하기</button>
         </p>
       ) : (
         <></>
