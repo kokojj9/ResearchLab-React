@@ -49,14 +49,14 @@ const LoginModal = forwardRef<
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "api/members/login",
+        "/api/members/login",
         {
           memberId: memberId,
           memberPwd: memberPwd,
         },
         { withCredentials: true }
       );
-      console.log(response);
+
       if (response.data.resultMessage === "로그인 성공") {
         login(response.data.data);
         console.log(response.data.data);

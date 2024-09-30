@@ -23,7 +23,7 @@ const StrategylabBoard = () => {
   // 전체 글, 내 글 조회 요청 공용 메서드
   const fetchPosts = async (url: string, params = {}) => {
     try {
-      const response = await axios.get(url, params); // 글조회, 내글조회 중복으로 url를 동적으로 취급 할 수 있게끔 매개변수로 변경
+      const response = await axios.get(url, { params }); // 글조회, 내글조회 중복으로 url를 동적으로 취급 할 수 있게끔 매개변수로 변경
       setPosts((prevPost) => [...prevPost, ...response.data.content]);
       setHasMore(!response.data.last);
       setIsLoading(false);
@@ -45,6 +45,7 @@ const StrategylabBoard = () => {
         });
       } else {
         alert("로그인이 필요합니다.");
+        return;
       }
     }
   }, [page, viewType, member]);
