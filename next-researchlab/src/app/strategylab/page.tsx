@@ -51,8 +51,8 @@ const StrategylabBoard = () => {
   }, [page, viewType, member]);
 
   const handleViewChange = (type: string) => {
+    if (type != viewType) setPosts([]);
     setPage(0);
-    setPosts([]);
     setViewType(type);
   };
 
@@ -74,10 +74,10 @@ const StrategylabBoard = () => {
             className={styles.btn}
             onClick={() => handleViewChange("all")}
           >
-            전체 글 목록 보기
+            전체 게시글 보기
           </button>
           <button className={styles.btn} onClick={() => handleViewChange("my")}>
-            내 글 목록 보기
+            내 게시글 보기
           </button>
         </div>
       </header>
