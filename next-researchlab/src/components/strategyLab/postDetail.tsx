@@ -42,7 +42,11 @@ const PostDetail: React.FC<{ post: Post }> = ({ post }) => {
       <h1>{post!.title}</h1>
       {member?.memberId == post.writer ? (
         <p>
-          <button>수정하기</button>
+          <button
+            onClick={() => router.push(`/strategylab/editPost/${post.postNo}`)}
+          >
+            수정하기
+          </button>
           <button onClick={() => deletePost(post.postNo)}>삭제하기</button>
         </p>
       ) : (
