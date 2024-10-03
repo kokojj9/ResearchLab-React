@@ -88,7 +88,8 @@ const PostForm: React.FC<{ type: string; post: Post | null }> = ({
     );
 
     newPost.imageList.forEach((image) => {
-      formData.append("images", image as unknown as File);
+      console.log(image);
+      formData.append("imageList", image as unknown as File);
     });
 
     try {
