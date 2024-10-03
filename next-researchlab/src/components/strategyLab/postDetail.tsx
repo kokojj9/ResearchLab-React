@@ -53,16 +53,20 @@ const PostDetail: React.FC<{ post: Post }> = ({ post }) => {
         <div></div>
       )}
       <p>작성자: {post!.writer}</p>
-      <Image
-        className={classes.imageClass}
-        src={`/${post!.imageList[0].storedName}`}
-        alt={post.title}
-        width={100}
-        height={100}
-        style={{ borderRadius: "5px" }}
-        unoptimized
-      />
-      <p>{post?.content}</p>
+      <p>{post!.content}</p>
+      {post.imageList[0].storedName ? (
+        <Image
+          className={classes.imageClass}
+          src={`/${post.imageList[0].storedName}`}
+          alt={post.title}
+          width={300}
+          height={300}
+          style={{ borderRadius: "8px" }}
+          unoptimized
+        />
+      ) : (
+        <h3>미리보기 이미지가 없습니다.</h3>
+      )}
     </div>
   );
 };

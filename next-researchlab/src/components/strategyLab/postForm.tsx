@@ -1,3 +1,5 @@
+"use client";
+
 import { Member, RootState } from "@/redux/memberActions";
 import axios from "axios";
 import Image from "next/image";
@@ -58,15 +60,16 @@ const PostForm: React.FC<{ type: string; post: Post | null }> = ({
         imageNo: i + 1,
         title: file.name,
         originName: file.name,
-        storedName: URL.createObjectURL(file), // 새로운 이미지 미리보기 생성
+        storedName: "",
+        file: file,
       }));
-
-      const newPreviews = fileArray.map((file) => URL.createObjectURL(file)); // 새 미리보기 URL
 
       setNewPost((prevPost) => ({
         ...prevPost,
-        imageList: [...newImageList],
+        imageList: newImageList,
       }));
+
+      const newPreviews = fileArray.map((file) => URL.createObjectURL(file)); // 새 미리보기 URL
 
       setPreviewImages(newPreviews); // 미리보기 상태 업데이트
     }
@@ -86,27 +89,34 @@ const PostForm: React.FC<{ type: string; post: Post | null }> = ({
       "post",
       new Blob([JSON.stringify(postData)], { type: "application/json" })
     );
-
+    console.log(newPost.imageList);
     newPost.imageList.forEach((image) => {
-      console.log(image);
-      formData.append("imageList", image as unknown as File);
+      if (image.file) {
+        formData.append("imageList", image.file);
+      }
     });
 
     try {
-      if (type === "edit") {
-        // 수정 모드: PUT 메서드 사용
-        await axios.put(`/api/strategylab/posts/${newPost.postNo}`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-      } else {
-        // 작성 모드: POST 메서드 사용
-        await axios.post("/api/strategylab/posts", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-      }
+      const response =
+        type === "edit"
+          ? await axios.put(
+              `/api/strategylab/posts/${newPost.postNo}`,
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            )
+          : await axios.post("/api/strategylab/posts", formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            });
 
-      // 요청 성공 시 목록 페이지로 리다이렉트
-      router.push("/strategylab");
+      if (response.status === 200) {
+        router.push("/strategylab");
+      }
     } catch (error) {
       console.log("요청 실패", error);
     }
@@ -129,7 +139,7 @@ const PostForm: React.FC<{ type: string; post: Post | null }> = ({
             required
           />
         </div>
-        <div className="form-group">
+        <div className={styles["form-group"]}>
           <label>내용</label>
           <textarea
             value={newPost?.content}
@@ -140,18 +150,18 @@ const PostForm: React.FC<{ type: string; post: Post | null }> = ({
           />
         </div>
         <div className={styles["form-group"]}>
-          <label htmlFor="images">사진</label>
+          <label htmlFor="imageList">사진</label>
           <input
             type="file"
-            id="images"
+            id="imageList"
             onChange={handleImageChange}
             className={styles["form-control"]}
             multiple
             accept="image/*"
           />
         </div>
-        <div>
-          <h4>미리보기</h4>
+        <div className={styles["form-group"]}>
+          <label>미리보기</label>
           {previewImages.map((src, i) => (
             <Image
               key={i}

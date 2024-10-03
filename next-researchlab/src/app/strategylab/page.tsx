@@ -76,12 +76,24 @@ const StrategylabBoard = () => {
           >
             전체 게시글 보기
           </button>
-          <button className={styles.btn} onClick={() => handleViewChange("my")}>
-            내 게시글 보기
-          </button>
+          {member && (
+            <button
+              className={styles.btn}
+              onClick={() => handleViewChange("my")}
+            >
+              내 게시글 보기
+            </button>
+          )}
         </div>
       </header>
-      <main>{isLoading ? <p>Loading...</p> : <PostList posts={posts} />}</main>
+      <main>
+        {posts.length == 0 ? (
+          <p style={{ textAlign: "center" }}>게시글이 없습니다.</p>
+        ) : (
+          <p></p>
+        )}
+        {isLoading ? <p>Loading...</p> : <PostList posts={posts} />}
+      </main>
     </div>
   );
 };

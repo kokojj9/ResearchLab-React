@@ -16,6 +16,7 @@ const StrategyPostDetail = () => {
     if (postNo) {
       const fetchPost = async () => {
         console.log("상세글 조회");
+
         try {
           const response = await axios.get(
             `/api/strategylab/posts/${postNo.postNo}`
