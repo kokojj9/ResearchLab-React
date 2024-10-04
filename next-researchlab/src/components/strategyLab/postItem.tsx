@@ -58,7 +58,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
           <div className={styles["trade-post-footer"]}>
             <span>by {post.writer}</span>
             <span>{post.createDate}</span>
-            {/* <span>👀 {post.views}</span> */}
+            <span>👀 {post.views}</span>
           </div>
         </div>
       </Link>

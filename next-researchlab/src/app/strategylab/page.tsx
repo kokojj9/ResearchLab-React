@@ -26,6 +26,7 @@ const StrategylabBoard = () => {
       const response = await axios.get(url, { params }); // 글조회, 내글조회 중복으로 url를 동적으로 취급 할 수 있게끔 매개변수로 변경
       setPosts((prevPost) => [...prevPost, ...response.data.content]);
       setHasMore(!response.data.last);
+      console.log(response.data);
       setIsLoading(false);
     } catch (error) {
       console.error("조회 실패", error);
@@ -86,14 +87,7 @@ const StrategylabBoard = () => {
           )}
         </div>
       </header>
-      <main>
-        {posts.length == 0 ? (
-          <p style={{ textAlign: "center" }}>게시글이 없습니다.</p>
-        ) : (
-          <p></p>
-        )}
-        {isLoading ? <p>Loading...</p> : <PostList posts={posts} />}
-      </main>
+      <main>{isLoading ? <p>Loading...</p> : <PostList posts={posts} />}</main>
     </div>
   );
 };
