@@ -1,27 +1,26 @@
 "use client";
 
 import PostList from "@/components/strategyLab/postList";
-import { Member, RootState } from "@/redux/memberActions";
-import postService from "@/services/postService";
-import { Post } from "@/types/types";
+import useFetchPosts from "@/hooks/posts/useFetchPosts";
+import useViewType from "@/hooks/posts/useViewType";
+import { RootState } from "@/redux/memberActions";
+import { Member } from "@/types/types";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./page.module.css";
 
 const StrategylabBoard = () => {
-  const [page, setPage] = useState(0);
-  const [viewType, setViewType] = useState("all");
+  const { viewType, page, setPage, handleViewChange } = useViewType();
 
   const member = useSelector(
     (state: RootState) => state.member
   ) as Member | null;
 
-  const handleViewChange = (type: string) => {
-    if (type != viewType) setPosts([]);
-    setPage(0);
-    setViewType(type);
-  };
+  const { posts, isLoading } = useFetchPosts(
+    viewType,
+    member?.memberId || null,
+    page
+  );
 
   return (
     <div className={styles["trade-diary-board"]}>

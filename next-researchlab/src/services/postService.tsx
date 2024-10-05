@@ -19,6 +19,33 @@ const postService = {
     });
     return res.data.content;
   },
+
+  async fetchPostDetail(postNo: string): Promise<Post> {
+    const res = await axios.get(`/api/strategylab/posts/${postNo}`);
+    return res.data;
+  },
+
+  async createPost(formData: FormData) {
+    return await axios.post("/api/strategylab/posts", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
+
+  async updatePost(postNo: number, formData: FormData) {
+    return await axios.put(`/api/strategylab/posts/${postNo}`, formData, {
+      headers: {
+        "Content-Type": "multipart/formData",
+      },
+    });
+  },
+
+  async deletePost(postNo: number, memberId: string) {
+    return await axios.delete(`/api/strategylab/posts/${postNo}`, {
+      params: { memberId },
+    });
+  },
 };
 
 export default postService;

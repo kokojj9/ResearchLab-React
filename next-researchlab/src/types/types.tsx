@@ -15,3 +15,9 @@ type image = {
   storedName: string;
   file: File;
 };
+
+export interface Member {
+  memberNo: number;
+  memberId: string;
+  email: string;
+}
