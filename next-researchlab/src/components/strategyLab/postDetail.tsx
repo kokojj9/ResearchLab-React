@@ -1,7 +1,7 @@
 "use client";
 
+import { Post } from "@/types/types";
 import Image from "next/image";
-import { Post } from "./postItem";
 
 import { Member, RootState } from "@/redux/memberActions";
 import axios from "axios";

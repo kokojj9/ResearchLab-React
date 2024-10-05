@@ -1,13 +1,13 @@
 "use client";
 
 import { Member, RootState } from "@/redux/memberActions";
+import { Post } from "@/types/types";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./postForm.module.css";
-import { Post } from "./postItem";
 
 const PostForm: React.FC<{ type: string; post: Post | null }> = ({
   type,

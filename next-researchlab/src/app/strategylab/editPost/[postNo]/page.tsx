@@ -1,8 +1,8 @@
 "use client";
 
 import PostForm from "@/components/strategyLab/postForm";
-import { Post } from "@/components/strategyLab/postItem";
 import { Member, RootState } from "@/redux/memberActions";
+import { Post } from "@/types/types";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";

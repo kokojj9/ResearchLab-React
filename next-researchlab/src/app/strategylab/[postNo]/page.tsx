@@ -1,6 +1,6 @@
 "use client";
 
-import { Post } from "@/components/strategyLab/postItem";
+import { Post } from "@/types/types";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
