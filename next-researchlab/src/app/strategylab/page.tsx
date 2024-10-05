@@ -1,61 +1,26 @@
 "use client";
 
-import { Post } from "@/components/strategyLab/postItem";
 import PostList from "@/components/strategyLab/postList";
-import { Member, RootState } from "@/redux/memberActions";
-import axios from "axios";
+import useFetchPosts from "@/hooks/posts/useFetchPosts";
+import useViewType from "@/hooks/posts/useViewType";
+import { RootState } from "@/redux/memberActions";
+import { Member } from "@/types/types";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./page.module.css";
 
 const StrategylabBoard = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
-  const [viewType, setViewType] = useState("all");
+  const { viewType, page, setPage, handleViewChange } = useViewType();
 
   const member = useSelector(
     (state: RootState) => state.member
   ) as Member | null;
 
-  // 전체 글, 내 글 조회 요청 공용 메서드
-  const fetchPosts = async (url: string, params = {}) => {
-    try {
-      const response = await axios.get(url, { params }); // 글조회, 내글조회 중복으로 url를 동적으로 취급 할 수 있게끔 매개변수로 변경
-      setPosts((prevPost) => [...prevPost, ...response.data.content]);
-      setHasMore(!response.data.last);
-      console.log(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("조회 실패", error);
-    }
-  };
-
-  useEffect(() => {
-    setIsLoading(true);
-
-    if (viewType === "all") {
-      fetchPosts("/api/strategylab/posts", { page, size: 15 });
-    } else if (viewType === "my") {
-      if (member) {
-        fetchPosts(`/api/strategylab/members/${member!.memberId}/posts`, {
-          page,
-          size: 15,
-        });
-      } else {
-        alert("로그인이 필요합니다.");
-        return;
-      }
-    }
-  }, [page, viewType, member]);
-
-  const handleViewChange = (type: string) => {
-    if (type != viewType) setPosts([]);
-    setPage(0);
-    setViewType(type);
-  };
+  const { posts, isLoading } = useFetchPosts(
+    viewType,
+    member?.memberId || null,
+    page
+  );
 
   return (
     <div className={styles["trade-diary-board"]}>

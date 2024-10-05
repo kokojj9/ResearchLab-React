@@ -1,11 +1,5 @@
+import { Member } from "@/types/types";
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-// Member 타입 설정
-export type Member = {
-  memberNo: number;
-  memberId: string;
-  email: string;
-};
 
 // 초기 상태
 const initialState: Member | null = null;

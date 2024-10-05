@@ -1,14 +1,15 @@
 "use client";
 
-import { Post } from "@/components/strategyLab/postItem";
-import axios from "axios";
+import { Post } from "@/types/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import PostDetail from "@/components/strategyLab/postDetail";
+import postService from "@/services/postService";
 
 const StrategyPostDetail = () => {
-  const postNo = useParams<{ postNo: string }>();
+  const params = useParams();
+  const postNo = typeof params?.postNo === "string" ? params.postNo : "";
   const [isLoading, setIsLoading] = useState(true);
   const [post, setPost] = useState<Post | null>(null);
 
@@ -18,10 +19,8 @@ const StrategyPostDetail = () => {
         console.log("상세글 조회");
 
         try {
-          const response = await axios.get(
-            `/api/strategylab/posts/${postNo.postNo}`
-          );
-          setPost(response.data);
+          const resPost = await postService.fetchPostDetail(postNo);
+          setPost(resPost);
           setIsLoading(false);
         } catch (error) {
           console.log(error);
