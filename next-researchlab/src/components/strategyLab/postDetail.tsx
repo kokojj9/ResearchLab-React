@@ -24,14 +24,7 @@ const PostDetail: React.FC<{ post: Post }> = ({ post }) => {
       return;
     }
 
-    const response = await postService.deletePost(postNo, memberId);
-
-    if (response.status === 200) {
-      alert("게시글을 삭제 하였습니다.");
-    } else {
-      console.log(`게시글 삭제 실패: ${response.status}`);
-    }
-
+    await postService.deletePost(postNo, memberId);
     router.push("/strategylab");
   };
 

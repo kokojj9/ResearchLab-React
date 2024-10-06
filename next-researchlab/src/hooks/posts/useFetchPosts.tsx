@@ -15,19 +15,15 @@ const useFetchPosts = (
     const fetchPosts = async () => {
       setIsLoading(true);
 
-      try {
-        if (viewType === "all") {
-          const allPosts = await postService.fetchAllPosts(page, 15);
-          setPosts((prevPosts) => [...prevPosts, ...allPosts]);
-        } else if (viewType === "my") {
-          const myPosts = await postService.fetchMyPosts(memberId!, page, 15);
-          setPosts((prevPosts) => [...prevPosts, ...myPosts]);
-        }
-      } catch (error) {
-        console.log("게시글 조회 실패", error);
-      } finally {
-        setIsLoading(false);
+      if (viewType === "all") {
+        const allPosts = await postService.fetchAllPosts(page, 15);
+        setPosts((prevPosts) => [...prevPosts, ...allPosts]);
+      } else if (viewType === "my") {
+        const myPosts = await postService.fetchMyPosts(memberId!, page, 15);
+        setPosts((prevPosts) => [...prevPosts, ...myPosts]);
       }
+
+      setIsLoading(false);
     };
 
     fetchPosts();
