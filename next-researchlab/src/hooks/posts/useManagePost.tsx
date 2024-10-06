@@ -68,18 +68,11 @@ const useManagePost = (
       }
     });
 
-    try {
-      const response =
-        type === "edit"
-          ? await postService.updatePost(newPost.postNo, formData)
-          : await postService.createPost(formData);
+    type === "edit"
+      ? await postService.updatePost(newPost.postNo, formData)
+      : await postService.createPost(formData);
 
-      if (response.status === 200) {
-        router.push("/strategylab");
-      }
-    } catch (error) {
-      console.log("요청 실패", error);
-    }
+    router.push("/strategylab");
   };
 
   return {
