@@ -61,12 +61,12 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link className={styles.menuLink} href="/stockList">
+              <Link className={styles.menuLink} href="/stock">
                 주식 종목
               </Link>
             </li>
             <li>
-              <Link className={styles.menuLink} href="/cryptoList">
+              <Link className={styles.menuLink} href="/crypto">
                 암호 화폐
               </Link>
             </li>

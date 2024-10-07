@@ -1,30 +1,9 @@
+import { Post } from "@/types/types";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./postItem.module.css";
 
-export interface Post {
-  postNo: number;
-  title: string;
-  content: string;
-  writer: string;
-  views: number;
-  imageList: image[];
-  createDate: string;
-}
-
-export interface PostItemProps {
-  post: Post;
-}
-
-type image = {
-  imageNo: number;
-  title: string;
-  originName: string;
-  storedName: string;
-  file: File;
-};
-
-const PostItem: React.FC<PostItemProps> = ({ post }) => {
+const PostItem: React.FC<{ post: Post }> = ({ post }) => {
   return (
     <div className={styles["trade-post-item"]}>
       <Link
@@ -56,9 +35,9 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
           <h2>{post.title}</h2>
           <p>{post.content}</p>
           <div className={styles["trade-post-footer"]}>
-            <span>by {post.writer}</span>
+            <span>👀 {post.views}</span>
             <span>{post.createDate}</span>
-            {/* <span>👀 {post.views}</span> */}
+            <span>by {post.writer}</span>
           </div>
         </div>
       </Link>

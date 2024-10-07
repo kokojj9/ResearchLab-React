@@ -1,10 +1,10 @@
 "use client";
 
+import { Member, Post } from "@/types/types";
 import Image from "next/image";
-import { Post } from "./postItem";
 
-import { Member, RootState } from "@/redux/memberActions";
-import axios from "axios";
+import { RootState } from "@/redux/memberActions";
+import postService from "@/services/postService";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import classes from "./postDetail.module.css";
@@ -24,16 +24,7 @@ const PostDetail: React.FC<{ post: Post }> = ({ post }) => {
       return;
     }
 
-    const response = await axios.delete(`/api/strategylab/posts/${postNo}`, {
-      params: { memberId },
-    });
-
-    if (response.status === 200) {
-      alert("게시글을 삭제 하였습니다.");
-    } else {
-      console.log(`게시글 삭제 실패: ${response.status}`);
-    }
-
+    await postService.deletePost(postNo, memberId);
     router.push("/strategylab");
   };
 

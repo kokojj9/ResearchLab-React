@@ -1,4 +1,5 @@
-import PostItem, { Post } from "./postItem";
+import { Post } from "@/types/types";
+import PostItem from "./postItem";
 import styles from "./postList.module.css";
 
 const PostList: React.FC<{ posts: Post[] }> = ({ posts }) => {

@@ -1,7 +1,8 @@
 "use client";
 
 import PostForm from "@/components/strategyLab/postForm";
-import { Member, RootState } from "@/redux/memberActions";
+import { RootState } from "@/redux/memberActions";
+import { Member } from "@/types/types";
 import { useSelector } from "react-redux";
 
 const NewPost = () => {

@@ -1,13 +1,11 @@
 "use client";
 
-import { Member, RootState } from "@/redux/memberActions";
-import axios from "axios";
+import useManagePost from "@/hooks/posts/useManagePost";
+import { RootState } from "@/redux/memberActions";
+import { Member, Post } from "@/types/types";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./postForm.module.css";
-import { Post } from "./postItem";
 
 const PostForm: React.FC<{ type: string; post: Post | null }> = ({
   type,
@@ -17,110 +15,24 @@ const PostForm: React.FC<{ type: string; post: Post | null }> = ({
     (state: RootState) => state.member
   ) as Member | null;
 
-  const [newPost, setNewPost] = useState<Post>({
-    postNo: post?.postNo || 0,
-    title: post?.title || "",
-    content: post?.content || "",
-    writer: post?.writer || member?.memberId || "",
-    views: post?.views || 0,
-    imageList: post?.imageList || [],
-    createDate: post?.createDate || "",
-  });
+  const {
+    newPost,
+    previewImages,
+    handleTitleChange,
+    handleContentChange,
+    handleImageChange,
+    handleSubmit,
+  } = useManagePost(post, member!.memberId, type);
 
-  const [previewImages, setPreviewImages] = useState<string[]>([]); // 미리보기 이미지 URL 배열
-  const router = useRouter();
-
-  useEffect(() => {
-    if (type === "edit" && post) {
-      const initialPreviews = post.imageList.map(
-        (image) => `/${image.storedName}`
-      );
-      setPreviewImages(initialPreviews); // 수정 시 기존 이미지 미리보기 설정
-    }
-  }, [post, type]);
-
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPost({ ...newPost, title: e.target.value });
-  };
-
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewPost({ ...newPost, content: e.target.value });
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-
-    if (files && files.length > 0) {
-      // 이전 미리보기 URL 해제
-      previewImages.forEach((url) => URL.revokeObjectURL(url));
-
-      const fileArray = Array.from(files);
-
-      const newImageList = fileArray.map((file, i) => ({
-        imageNo: i + 1,
-        title: file.name,
-        originName: file.name,
-        storedName: "",
-        file: file,
-      }));
-
-      setNewPost((prevPost) => ({
-        ...prevPost,
-        imageList: newImageList,
-      }));
-
-      const newPreviews = fileArray.map((file) => URL.createObjectURL(file)); // 새 미리보기 URL
-
-      setPreviewImages(newPreviews); // 미리보기 상태 업데이트
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-
-    const postData = {
-      ...newPost,
-      writer: member!.memberId,
-    };
-
-    formData.append(
-      "post",
-      new Blob([JSON.stringify(postData)], { type: "application/json" })
-    );
-    console.log(newPost.imageList);
-    newPost.imageList.forEach((image) => {
-      if (image.file) {
-        formData.append("imageList", image.file);
-      }
-    });
-
-    try {
-      const response =
-        type === "edit"
-          ? await axios.put(
-              `/api/strategylab/posts/${newPost.postNo}`,
-              formData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              }
-            )
-          : await axios.post("/api/strategylab/posts", formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            });
-
-      if (response.status === 200) {
-        router.push("/strategylab");
-      }
-    } catch (error) {
-      console.log("요청 실패", error);
-    }
-  };
+  // useEffect(() => {
+  //   if (type === "edit" && post) {
+  //     const initialPreviews = post.imageList.map(
+  //       (image) => `/${image.storedName}`
+  //     );
+  //     setPreviewImages(initialPreviews); // 수정 시 기존 이미지 미리보기 설정
+  //   }
+  // }, [post, type]);
+  // 커스텀훅으로 분리되어 값 변경시 자동으로 재렌더링 -> 이 로직은 필요없어짐
 
   return (
     <div className={styles["new-trade-post"]}>
