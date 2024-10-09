@@ -21,3 +21,12 @@ export interface Member {
   memberId: string;
   email: string;
 }
+
+export interface CalculationResult {
+  iteration: number;
+  previousAmount: number;
+  currentAmount: number;
+  profit: number;
+  rate: number;
+  cumulativeRate: number;
+}
