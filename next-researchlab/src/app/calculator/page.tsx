@@ -74,9 +74,9 @@ const Calculator = () => {
             {result.map((item) => (
               <tr key={item.iteration}>
                 <td>{item.iteration}</td>
-                <td>{item.previousAmount.toLocaleString("ko-KR")} 원</td>
-                <td>{item.currentAmount.toLocaleString("ko-KR")} 원</td>
-                <td>{item.profit.toLocaleString("ko-KR")} 원</td>
+                <td>{item.previousAmount.toLocaleString("ko-KR")}</td>
+                <td>{item.currentAmount.toLocaleString("ko-KR")}</td>
+                <td>{item.profit.toLocaleString("ko-KR")}</td>
                 <td>{item.rate} %</td>
                 <td>{item.cumulativeRate} %</td>
               </tr>

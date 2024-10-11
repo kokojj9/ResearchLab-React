@@ -24,7 +24,7 @@ const useCalculator = () => {
         currentAmount: Math.round(amount),
         profit: Math.round(profit),
         rate,
-        cumulativeRate: Math.round(cumulativeRate),
+        cumulativeRate: parseFloat(cumulativeRate.toFixed(2)),
       });
     }
 

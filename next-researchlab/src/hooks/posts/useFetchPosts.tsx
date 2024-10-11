@@ -29,7 +29,7 @@ const useFetchPosts = (
     fetchPosts();
   }, [page, viewType, memberId]);
 
-  return { posts, isLoading, hasMore };
+  return { posts, isLoading, hasMore, setPosts };
 };
 
 export default useFetchPosts;
