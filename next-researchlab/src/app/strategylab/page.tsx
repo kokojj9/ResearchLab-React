@@ -16,7 +16,7 @@ const StrategylabBoard = () => {
     (state: RootState) => state.member
   ) as Member | null;
 
-  const { posts, isLoading } = useFetchPosts(
+  const { posts, isLoading, setPosts } = useFetchPosts(
     viewType,
     member?.memberId || null,
     page
@@ -38,14 +38,14 @@ const StrategylabBoard = () => {
           )}
           <button
             className={styles.btn}
-            onClick={() => handleViewChange("all")}
+            onClick={() => handleViewChange("all", setPosts)}
           >
             전체 게시글 보기
           </button>
           {member && (
             <button
               className={styles.btn}
-              onClick={() => handleViewChange("my")}
+              onClick={() => handleViewChange("my", setPosts)}
             >
               내 게시글 보기
             </button>
