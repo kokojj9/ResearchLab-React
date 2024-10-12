@@ -8,7 +8,7 @@ const useManagePost = (
   memberId: string,
   type: string
 ) => {
-  const [previewImages, setPreviewImages] = useState<string[]>([]); // 미리보기 이미지 URL 배열
+  const [pendingImages, setPendingImages] = useState<File[]>([]); // 이미지 저장
   const router = useRouter();
 
   const [newPost, setNewPost] = useState<Post>({
@@ -25,62 +25,45 @@ const useManagePost = (
     setNewPost({ ...newPost, title: e.target.value });
   };
 
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewPost({ ...newPost, content: e.target.value });
+  // Quill 에디터의 onChange를 통해 바로 content 상태 업데이트
+  const handleContentChange = (content: string) => {
+    setNewPost({ ...newPost, content });
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-
-    if (files && files.length > 0) {
-      // 이전 미리보기 URL 해제
-      previewImages.forEach((url) => URL.revokeObjectURL(url));
-      const fileArray = Array.from(files);
-
-      const newImageList = fileArray.map((file, i) => ({
-        imageNo: i + 1,
-        title: file.name,
-        originName: file.name,
-        storedName: "",
-        file: file,
-      }));
-
-      setNewPost((prevPost) => ({
-        ...prevPost,
-        imageList: newImageList,
-      }));
-
-      const newPreviews = fileArray.map((file) => URL.createObjectURL(file)); // 새 미리보기 URL
-      setPreviewImages(newPreviews); // 미리보기 상태 업데이트
-    }
+  // 이미지 업로드: Quill과 관련된 처리는 나중에 제출 시 서버로 전송
+  const handleImageUpload = (image: File) => {
+    setPendingImages((prevImages) => [...prevImages, image]);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const formData = new FormData();
 
     formData.append(
       "post",
       new Blob([JSON.stringify(newPost)], { type: "application/json" })
     );
-    newPost.imageList.forEach((image) => {
-      if (image.file) {
-        formData.append("imageList", image.file);
-      }
+
+    pendingImages.forEach((image) => {
+      formData.append("imageList", image); // 제출 시 이미지 파일을 함께 전송
     });
 
-    type === "edit"
-      ? await postService.updatePost(newPost.postNo, formData)
-      : await postService.createPost(formData);
+    console.log(formData);
+
+    if (type === "edit") {
+      await postService.updatePost(newPost.postNo, formData);
+    } else {
+      await postService.createPost(formData);
+    }
 
     router.push("/strategylab");
   };
 
   return {
     newPost,
-    previewImages,
     handleTitleChange,
     handleContentChange,
-    handleImageChange,
+    handleImageUpload,
     handleSubmit,
   };
 };
