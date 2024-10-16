@@ -8,7 +8,6 @@ const useManagePost = (
   memberId: string,
   type: string
 ) => {
-  const [pendingImages, setPendingImages] = useState<File[]>([]); // 이미지 저장
   const router = useRouter();
 
   const [newPost, setNewPost] = useState<Post>({
@@ -30,11 +29,6 @@ const useManagePost = (
     setNewPost({ ...newPost, content });
   };
 
-  // 이미지 업로드: Quill과 관련된 처리는 나중에 제출 시 서버로 전송
-  const handleImageUpload = (image: File) => {
-    setPendingImages((prevImages) => [...prevImages, image]);
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
@@ -43,12 +37,6 @@ const useManagePost = (
       "post",
       new Blob([JSON.stringify(newPost)], { type: "application/json" })
     );
-
-    pendingImages.forEach((image) => {
-      formData.append("imageList", image); // 제출 시 이미지 파일을 함께 전송
-    });
-
-    console.log(formData);
 
     if (type === "edit") {
       await postService.updatePost(newPost.postNo, formData);
@@ -63,7 +51,6 @@ const useManagePost = (
     newPost,
     handleTitleChange,
     handleContentChange,
-    handleImageUpload,
     handleSubmit,
   };
 };

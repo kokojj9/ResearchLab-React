@@ -38,20 +38,20 @@ const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
         try {
           // 서버에 이미지 업로드 후 URL 반환
           const res = await imageApi(formData);
-          const imgUrl = res.data.imgUrl;
+          console.log("서버 응답:", res);
 
-          // Quill 에디터에 접근하여 이미지 삽입
+          const imgUrl = "/" + res.imgUrl;
+          console.log(imgUrl);
           const editor = quillRef.current?.getEditor();
+
           if (editor) {
             const range = editor.getSelection();
             if (range) {
-              editor.insertEmbed(range.index, "image", imgUrl);
+              editor.insertEmbed(range.index, "image", imgUrl); // 이미지 삽입
               editor.setSelection(range.index + 1);
             } else {
               console.error("현재 선택 영역을 가져올 수 없습니다.");
             }
-          } else {
-            console.error("Quill 에디터 인스턴스를 사용할 수 없습니다.");
           }
         } catch (error) {
           console.error("이미지 업로드 실패:", error);
