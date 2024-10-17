@@ -30,3 +30,8 @@ export interface CalculationResult {
   rate: number;
   cumulativeRate: number;
 }
+
+export interface QuillEditorProps {
+  value: string;
+  onChange: (content: string) => void;
+}
