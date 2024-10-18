@@ -1,6 +1,7 @@
 .new-trade-post {
-  max-width: 600px;
-  margin: 0 auto;
+  min-height: 500px;
+  max-width: 850px;
+  margin: 50px auto 0 auto;
   padding: 20px;
   background-color: #f4f4f4;
   border-radius: 10px;
@@ -46,8 +47,14 @@
   box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
 }
 
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
 .submit-btn {
-  width: 100%;
+  margin-top: 40px;
+  width: 45%;
   padding: 10px;
   background-color: #28a745;
   color: white;
