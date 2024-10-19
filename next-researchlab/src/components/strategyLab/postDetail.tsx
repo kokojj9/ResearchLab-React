@@ -1,13 +1,11 @@
 "use client";
 
-import { Member, Post } from "@/types/types";
-import Image from "next/image";
-
 import { RootState } from "@/redux/memberActions";
 import postService from "@/services/postService";
+import { Member, Post } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import classes from "./postDetail.module.css";
+import styles from "./postDetail.module.css";
 
 const PostDetail: React.FC<{ post: Post }> = ({ post }) => {
   const router = useRouter();
@@ -29,34 +27,35 @@ const PostDetail: React.FC<{ post: Post }> = ({ post }) => {
   };
 
   return (
-    <div>
-      <h1>{post!.title}</h1>
-      {member?.memberId == post.writer ? (
-        <p>
+    <div className={styles[`postContainer`]}>
+      <div className={styles[`postHeader`]}>
+        <h1 className={styles[`postTitle`]}>{post.title}</h1>
+        <div className={styles[`postInfo`]}>
+          <span className={styles[`writer`]}>작성자: {post.writer}</span>
+          <span className={styles[`date`]}>
+            작성일: {new Date(post.createDate).toLocaleDateString()}
+          </span>
+        </div>
+      </div>
+      <div
+        className={styles[`content`]}
+        dangerouslySetInnerHTML={{ __html: post.content }}
+      />
+      {member?.memberId === post.writer && (
+        <div className={styles["action-buttons"]}>
           <button
+            className={`${styles["action-button"]} ${styles["edit-button"]}`}
             onClick={() => router.push(`/strategylab/editPost/${post.postNo}`)}
           >
             수정하기
           </button>
-          <button onClick={() => deletePost(post.postNo)}>삭제하기</button>
-        </p>
-      ) : (
-        <div></div>
-      )}
-      <p>작성자: {post!.writer}</p>
-      <p>{post!.content}</p>
-      {post.imageList[0].storedName ? (
-        <Image
-          className={classes.imageClass}
-          src={`/${post.imageList[0].storedName}`}
-          alt={post.title}
-          width={300}
-          height={300}
-          style={{ borderRadius: "8px" }}
-          unoptimized
-        />
-      ) : (
-        <h3>미리보기 이미지가 없습니다.</h3>
+          <button
+            className={`${styles["action-button"]} ${styles["delete-button"]}`}
+            onClick={() => deletePost(post.postNo)}
+          >
+            삭제하기
+          </button>
+        </div>
       )}
     </div>
   );
