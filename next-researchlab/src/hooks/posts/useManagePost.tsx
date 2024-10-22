@@ -1,7 +1,8 @@
 import postService from "@/services/postService";
 import { Post } from "@/types/types";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const useManagePost = (
   initialPost: Post | null,
@@ -47,11 +48,43 @@ const useManagePost = (
     router.push("/strategylab");
   };
 
+  const deleteTempImg = async () => {
+    try {
+      await axios.delete("/api/strategy/fileUpload");
+    } catch (error) {
+      console.log("임시 파일 삭제 실패", error);
+    }
+  };
+  // 페이지를 벗어날 때 또는 취소 버튼을 눌렀을 때 실행될 로직
+  const handleCancel = () => {
+    if (type !== "edit") {
+      deleteTempImg();
+    }
+    router.push("/strategylab");
+  };
+
+  // 페이지 이탈 시 이미지 삭제 (새로고침, 뒤로가기 등)
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      if (type !== "edit") {
+        deleteTempImg();
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [type]);
+
   return {
     newPost,
     handleTitleChange,
     handleContentChange,
     handleSubmit,
+    handleCancel,
   };
 };
 

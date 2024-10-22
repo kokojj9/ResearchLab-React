@@ -15,8 +15,13 @@ const PostForm: React.FC<{ type: string; post: Post | null }> = ({
     (state: RootState) => state.member
   ) as Member | null;
 
-  const { newPost, handleTitleChange, handleContentChange, handleSubmit } =
-    useManagePost(post, member!.memberId, type);
+  const {
+    newPost,
+    handleTitleChange,
+    handleContentChange,
+    handleSubmit,
+    handleCancel,
+  } = useManagePost(post, member!.memberId, type);
 
   return (
     <div className={styles["new-trade-post"]}>
@@ -43,7 +48,11 @@ const PostForm: React.FC<{ type: string; post: Post | null }> = ({
           <button type="submit" className={styles["submit-btn"]}>
             {post ? "수정하기" : "작성하기"}
           </button>
-          <button type="button" className={styles["submit-btn"]}>
+          <button
+            type="button"
+            className={styles["submit-btn"]}
+            onClick={handleCancel}
+          >
             취소
           </button>
         </div>
