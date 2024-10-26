@@ -10,6 +10,7 @@ import {
 import { createPortal } from "react-dom";
 
 import { MemberType } from "@/context/MemberContext";
+import apiClient from "../../api/apiClient";
 import styles from "./loginModal.module.css";
 
 export type LoginModalHandle = {
@@ -48,7 +49,7 @@ const LoginModal = forwardRef<
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(
+      const response = await apiClient.post(
         "/api/members/login",
         {
           memberId: memberId,
@@ -59,6 +60,7 @@ const LoginModal = forwardRef<
 
       if (response.data.resultMessage === "로그인 성공") {
         login(response.data.data);
+
         console.log(response.data.data);
         closeModal();
       } else {
