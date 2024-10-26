@@ -3,9 +3,7 @@
 import { RootState } from "@/redux/memberActions";
 import postService from "@/services/postService";
 import { Member, Post } from "@/types/types";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styles from "./postDetail.module.css";
 
@@ -29,25 +27,8 @@ const PostDetail: React.FC<{ post: Post }> = ({ post }) => {
 
   return (
     <div className={styles.postContainer}>
-      {/* 포스트 헤더: 제목, 작성자, 작성일 */}
       <div className={styles.postHeader}>
         <h1 className={styles.postTitle}>{post.title}</h1>
-        <div className={styles.postInfo}>
-          <span className={styles.writer}>작성자: {post.writer}</span>
-          <span className={styles.date}>
-            작성일: {new Date(post.createDate).toLocaleDateString()}
-          </span>
-        </div>
-      </div>
-
-      {/* 포스트 내용 */}
-      <div
-        className={styles.content}
-        dangerouslySetInnerHTML={{ __html: post.content }}
-      />
-
-      {/* 수정 및 삭제 버튼 */}
-      {member?.memberId === post.writer && (
         <div className={styles.actionButtons}>
           <button
             className={`${styles.actionButton} ${styles.editButton}`}
@@ -62,6 +43,19 @@ const PostDetail: React.FC<{ post: Post }> = ({ post }) => {
             삭제하기
           </button>
         </div>
+      </div>
+      <div className={styles.postInfo}>
+        <span className={styles.writer}>작성자: {post.writer}</span>
+        <span className={styles.date}>
+          작성일: {new Date(post.createDate).toLocaleDateString()}
+        </span>
+      </div>
+      <div
+        className={styles.content}
+        dangerouslySetInnerHTML={{ __html: post.content }}
+      />
+      {member?.memberId === post.writer && (
+        <div className={styles.actionButtons}></div>
       )}
     </div>
   );

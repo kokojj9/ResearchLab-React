@@ -1,27 +1,59 @@
-/* postDetail.module.css */
-
-/* 컨테이너 */
 .postContainer {
   width: 800px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* 포스트 헤더 */
 .postHeader {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
 }
 
 .postTitle {
   font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 10px;
+  text-align: center;
+  flex-grow: 1;
+  margin: 0;
+}
+
+.actionButtons {
+  position: absolute;
+  right: 0;
+  top: 50;
+}
+
+.actionButton {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.editButton {
+  background-color: #cccccc;
+  color: #333;
+}
+
+.deleteButton {
+  background-color: #eeeeee;
+}
+
+.actionButton:hover {
+  opacity: 0.8;
 }
 
 .postInfo {
   font-size: 1rem;
   color: #888;
+  margin-top: 10px;
   margin-bottom: 50px;
+  text-align: center;
 }
 
 .writer {
@@ -32,40 +64,11 @@
   margin-left: 10px;
 }
 
-/* 포스트 내용 */
 .content {
   font-size: 1.1rem;
   line-height: 1.6;
   margin-bottom: 30px;
-}
-
-/* 버튼 스타일링 */
-.actionButtons {
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-}
-
-.actionButton {
-  padding: 10px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.editButton {
-  background-color: #4caf50;
-  color: white;
-}
-
-.deleteButton {
-  background-color: #f44336;
-  color: white;
-}
-
-.actionButton:hover {
-  opacity: 0.9;
+  text-align: left;
 }
 
 .content img {
@@ -75,8 +78,4 @@
   max-height: 800px;
   display: block;
   margin: 20px auto;
-}
-
-.content p {
-  text-align: left;
 }
