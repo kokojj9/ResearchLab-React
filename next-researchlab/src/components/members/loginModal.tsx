@@ -50,7 +50,7 @@ const LoginModal = forwardRef<
   const handleLogin = async () => {
     try {
       const response = await apiClient.post(
-        "/api/members/login",
+        "/api/auth/login",
         {
           memberId: memberId,
           memberPwd: memberPwd,
