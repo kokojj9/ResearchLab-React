@@ -1,6 +1,81 @@
-.imageClass {
+.postContainer {
+  width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.postHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.postTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  flex-grow: 1;
+  margin: 0;
+}
+
+.actionButtons {
+  position: absolute;
+  right: 0;
+  top: 50;
+}
+
+.actionButton {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.editButton {
+  background-color: #cccccc;
+  color: #333;
+}
+
+.deleteButton {
+  background-color: #eeeeee;
+}
+
+.actionButton:hover {
+  opacity: 0.8;
+}
+
+.postInfo {
+  font-size: 1rem;
+  color: #888;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.writer {
+  margin-right: 10px;
+}
+
+.date {
+  margin-left: 10px;
+}
+
+.content {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.content img {
   width: auto;
   height: auto;
-  max-width: 500px;
-  max-height: 600px;
+  max-width: 800px;
+  max-height: 800px;
+  display: block;
+  margin: 20px auto;
 }

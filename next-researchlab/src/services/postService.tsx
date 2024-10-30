@@ -1,10 +1,10 @@
+import apiClient from "@/api/apiClient";
 import { Post } from "@/types/types";
-import axios from "axios";
 
 const postService = {
   async fetchAllPosts(page: number, size: number): Promise<Post[]> {
     try {
-      const res = await axios.get("/api/strategylab/posts", {
+      const res = await apiClient.get("/api/strategylab/posts", {
         params: { page, size },
       });
       return res.data.content;
@@ -20,7 +20,7 @@ const postService = {
     size: number
   ): Promise<Post[]> {
     try {
-      const res = await axios.get(
+      const res = await apiClient.get(
         `/api/strategylab/members/${memberId}/posts`,
         {
           params: { page, size },
@@ -36,7 +36,7 @@ const postService = {
 
   async fetchPostDetail(postNo: string): Promise<Post | null> {
     try {
-      const res = await axios.get(`/api/strategylab/posts/${postNo}`);
+      const res = await apiClient.get(`/api/strategylab/posts/${postNo}`);
       return res.data;
     } catch (e) {
       console.log("게시글 상세조회 실패", e);
@@ -46,7 +46,7 @@ const postService = {
 
   async createPost(formData: FormData) {
     try {
-      return await axios.post("/api/strategylab/posts", formData, {
+      return await apiClient.post("/api/strategylab/posts", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -59,7 +59,7 @@ const postService = {
 
   async updatePost(postNo: number, formData: FormData) {
     try {
-      return await axios.put(`/api/strategylab/posts/${postNo}`, formData, {
+      return await apiClient.put(`/api/strategylab/posts/${postNo}`, formData, {
         headers: {
           "Content-Type": "multipart/formData",
         },
@@ -72,7 +72,7 @@ const postService = {
 
   async deletePost(postNo: number, memberId: string) {
     try {
-      return await axios.delete(`/api/strategylab/posts/${postNo}`, {
+      return await apiClient.delete(`/api/strategylab/posts/${postNo}`, {
         params: { memberId },
       });
     } catch (e) {

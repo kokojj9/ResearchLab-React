@@ -17,14 +17,6 @@ import LoginModal, {
 import { RootState } from "../../redux/memberActions";
 
 const Header = () => {
-  // const memberContext = useContext(MemberContext);
-
-  // if (!memberContext) {
-  //   throw new Error("MemberContext를 찾을 수 없음");
-  // }
-
-  // const { member, login, logout } = memberContext;
-
   const dispatch = useDispatch();
   const member = useSelector(
     (state: RootState) => state.member

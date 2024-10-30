@@ -66,3 +66,11 @@
   font-size: 12px;
   color: #999;
 }
+
+.no-preview {
+  text-align: center;
+  height: 150px;
+  margin: 0;
+  line-height: 150px;
+  border-bottom: solid 1px gray;
+}

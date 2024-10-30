@@ -20,6 +20,7 @@ export interface Member {
   memberNo: number;
   memberId: string;
   email: string;
+  token: string;
 }
 
 export interface CalculationResult {
