@@ -9,16 +9,16 @@ const memberSlice = createSlice({
   name: "member",
   initialState,
   reducers: {
-    login: (state: Member | null, action: PayloadAction<Member>) => {
-      localStorage.setItem("loginMember", JSON.stringify(action.payload));
-      console.log("회원정보 로컬스토리지저장");
+    login: (state, action: PayloadAction<Member>) => {
+      // 회원 정보만 Redux 상태에 저장
       return action.payload;
     },
     logout: () => {
-      localStorage.removeItem("loginMember");
+      // 로그아웃 시 상태를 null로 변경
       return null;
     },
-    setMember: (state: Member | null, action: PayloadAction<Member | null>) => {
+    setMember: (state, action: PayloadAction<Member | null>) => {
+      // 서버에서 가져온 회원 정보를 설정
       return action.payload;
     },
   },

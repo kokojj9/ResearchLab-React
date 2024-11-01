@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./main-header.module.css";
 
-import { login, logout, Member } from "@/redux/memberActions";
+import { login, logout, Member, setMember } from "@/redux/memberActions";
+import axios from "axios";
 import Button from "../../components/members/button";
 import EnrollModal, {
   EnrollModalHandle,
@@ -34,12 +35,29 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      // await axios.post("api/members/logout", {}, { withCredentials: true });
+      await axios.post("api/auth/logout", {}, { withCredentials: true });
       dispatch(logout(null));
     } catch (error) {
       console.error("로그아웃 실패", error);
     }
   };
+
+  useEffect(() => {
+    const fetchMember = async () => {
+      try {
+        // Spring 백엔드의 인증 확인 API 호출
+        const response = await axios.get("/api/auth/checkJwt", {
+          withCredentials: true,
+        });
+        dispatch(member(response.data));
+      } catch (error) {
+        console.error("Authentication failed:", error);
+        dispatch(setMember(null));
+      }
+    };
+
+    fetchMember();
+  }, [dispatch, member]);
 
   return (
     <>
